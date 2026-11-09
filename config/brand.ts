@@ -12,7 +12,7 @@ export const brand = {
   tagline: 'Toys for curious little hands',
   description:
     'PlayPatch is an online toy shop of wooden toys, pretend play, puzzles, stacking toys, plush friends and creative kits — chosen for open-ended, hands-on play.',
-  url: process.env.NEXT_PUBLIC_SITE_URL ?? 'https://kids-toy-store.vercel.app',
+  url: process.env.NEXT_PUBLIC_SITE_URL ?? 'https://kids-toy-store-ten.vercel.app',
   locale: 'en-IN',
   currency: 'INR',
 
