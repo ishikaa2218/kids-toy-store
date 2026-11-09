@@ -1,0 +1,191 @@
+@import 'tailwindcss';
+@import '@fontsource-variable/grandstander';
+@import '@fontsource-variable/figtree';
+@import '@fontsource/caveat/latin-600.css';
+@import '@fontsource/caveat/latin-700.css';
+
+/* ------------------------------------------------------------------
+   PlayPatch design tokens
+   Warm neutrals carry the page; brights are used in deliberate blocks.
+   ------------------------------------------------------------------ */
+@theme {
+  --font-display: 'Grandstander Variable', ui-rounded, system-ui, sans-serif;
+  --font-sans: 'Figtree Variable', ui-sans-serif, system-ui, sans-serif;
+  --font-hand: 'Caveat', cursive;
+
+  --color-cream: #fbf4e6;
+  --color-ivory: #fffaf1;
+  --color-sand: #f1e3c8;
+  --color-olive: #5c6a37;
+  --color-olive-deep: #414b23;
+  --color-leaf: #84b159;
+  --color-mustard: #e8b13a;
+  --color-sky: #9dc0e6;
+  --color-coral: #e1684b;
+  --color-orange: #ee8a3c;
+  --color-wood: #c8986a;
+  --color-ink: #2a2520;
+  --color-ink-soft: #5f564b;
+  --color-ink-mute: #8b8174;
+
+  --radius-soft: 18px;
+  --radius-card: 22px;
+
+  --ease-out-back: cubic-bezier(0.34, 1.4, 0.64, 1);
+  --ease-out-quint: cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+@layer base {
+  :root {
+    --gutter: clamp(18px, 4vw, 64px);
+    --header-h: 72px;
+  }
+
+  html {
+    -webkit-text-size-adjust: 100%;
+    -webkit-font-smoothing: antialiased;
+    scroll-padding-top: calc(var(--header-h) + 12px);
+  }
+
+  body {
+    @apply bg-cream font-sans text-ink;
+    overflow-x: clip;
+  }
+
+  h1,
+  h2,
+  h3 {
+    @apply font-display;
+    text-wrap: balance;
+  }
+
+  p {
+    text-wrap: pretty;
+  }
+
+  ::selection {
+    background: var(--color-mustard);
+    color: var(--color-ink);
+  }
+
+  :focus-visible {
+    outline: 3px solid var(--color-coral);
+    outline-offset: 3px;
+    border-radius: 6px;
+  }
+}
+
+@layer components {
+  .container-play {
+    @apply mx-auto w-full;
+    max-width: 1680px;
+    padding-inline: var(--gutter);
+  }
+
+  .t-display {
+    font-family: var(--font-display);
+    font-weight: 800;
+    font-size: clamp(46px, 7.2vw, 118px);
+    line-height: 0.92;
+    letter-spacing: -0.02em;
+  }
+  .t-h2 {
+    font-family: var(--font-display);
+    font-weight: 750;
+    font-size: clamp(32px, 4.2vw, 64px);
+    line-height: 0.98;
+    letter-spacing: -0.015em;
+  }
+  .t-h3 {
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: clamp(22px, 2vw, 30px);
+    line-height: 1.05;
+  }
+  .t-hand {
+    font-family: var(--font-hand);
+    font-weight: 700;
+    letter-spacing: 0.01em;
+  }
+  .t-eyebrow {
+    @apply text-[12px] font-bold tracking-[0.14em] uppercase;
+  }
+
+  /* --------------------------------------------------------------
+     Clay — a soft, sculpted surface. Light from the top-left, a
+     darker underside, and a faint grain so it reads as material.
+     -------------------------------------------------------------- */
+  .clay {
+    --clay: var(--color-mustard);
+    position: relative;
+    isolation: isolate;
+    background:
+      radial-gradient(120% 110% at 28% 22%, color-mix(in oklab, var(--clay) 62%, white) 0%, var(--clay) 46%,
+        color-mix(in oklab, var(--clay) 78%, #3a2412) 100%);
+    box-shadow:
+      inset -7px -10px 16px color-mix(in oklab, var(--clay) 55%, #2b1a0c 45%),
+      inset 6px 8px 14px rgb(255 255 255 / 0.38),
+      0 22px 30px -16px rgb(70 45 20 / 0.45),
+      0 6px 10px -6px rgb(70 45 20 / 0.28);
+  }
+  .clay::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    pointer-events: none;
+    opacity: 0.32;
+    mix-blend-mode: soft-light;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  }
+
+  /* Organic photo masks, after the hand-cut shapes in the WOODIC reference */
+  .mask-blob {
+    border-radius: 58% 42% 47% 53% / 50% 46% 54% 50%;
+  }
+  .mask-blob-2 {
+    border-radius: 44% 56% 62% 38% / 48% 58% 42% 52%;
+  }
+  .mask-pebble {
+    border-radius: 46% 54% 50% 50% / 58% 52% 48% 42%;
+  }
+  .mask-arch {
+    border-radius: 999px 999px 18px 18px;
+  }
+
+  /* Stitched edge — the "patch" in PlayPatch */
+  .stitch {
+    outline: 2px dashed currentColor;
+    outline-offset: -8px;
+  }
+
+  .link-wiggle {
+    background-image: linear-gradient(currentColor, currentColor);
+    background-size: 0% 2px;
+    background-position: 0 100%;
+    background-repeat: no-repeat;
+    transition: background-size 0.3s var(--ease-out-quint);
+  }
+  .link-wiggle:hover,
+  .link-wiggle:focus-visible {
+    background-size: 100% 2px;
+  }
+}
+
+@utility no-scrollbar {
+  scrollbar-width: none;
+  &::-webkit-scrollbar {
+    display: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
