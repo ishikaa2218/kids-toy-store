@@ -1,9 +1,10 @@
 'use client'
 
-import { useEffect, useRef, useState } from 'react'
+import { useEffect, useRef, useState, type MouseEvent } from 'react'
 import { AnimatePresence, motion } from 'motion/react'
 import { Check, Plus, ShoppingBag } from 'lucide-react'
 import { useCart } from '@/context/CartContext'
+import { flyToBag } from '@/components/cart/BagFeedback'
 import type { Product } from '@/types'
 
 type Props = {
@@ -24,7 +25,8 @@ export function AddToCartButton({ product, qty = 1, variant = 'compact', openDra
     if (timer.current) window.clearTimeout(timer.current)
   }, [])
 
-  const onClick = () => {
+  const onClick = (e: MouseEvent<HTMLButtonElement>) => {
+    if (!openDrawer) flyToBag(e.currentTarget, product.images[0].src)
     add(product.id, qty)
     setAdded(true)
     if (openDrawer) open()
@@ -40,7 +42,9 @@ export function AddToCartButton({ product, qty = 1, variant = 'compact', openDra
         type="button"
         onClick={onClick}
         aria-label={label}
-        className={`relative grid size-11 place-items-center rounded-full text-ivory shadow-[0_3px_0_rgb(0_0_0/0.22)] transition-[background-color,transform] duration-200 active:translate-y-[2px] active:shadow-none ${
+        data-cursor="add"
+        data-cursor-label="Add"
+        className={`relative grid size-11 place-items-center rounded-full text-ivory shadow-[0_3px_0_rgb(0_0_0/0.22)] transition-[background-color,transform] duration-200 hover:rotate-[-8deg] active:translate-y-[2px] active:rotate-0 active:shadow-none ${
           added ? 'bg-leaf' : 'bg-olive hover:bg-[#667640]'
         } ${className}`}
       >
@@ -63,6 +67,8 @@ export function AddToCartButton({ product, qty = 1, variant = 'compact', openDra
     <button
       type="button"
       onClick={onClick}
+      data-cursor="add"
+      data-cursor-label="Add to bag"
       className={`group/btn inline-flex min-h-14 items-center justify-center gap-3 rounded-full px-8 text-[16px] font-bold text-ivory shadow-[0_5px_0_var(--color-olive-deep)] transition-[background-color,transform,box-shadow] duration-200 active:translate-y-[4px] active:shadow-none ${
         added ? 'bg-leaf' : 'bg-olive hover:bg-[#667640]'
       } ${className}`}

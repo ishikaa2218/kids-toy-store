@@ -1,8 +1,9 @@
 import Link from 'next/link'
-import { brand } from '@/config/brand'
+import { MessageCircle } from 'lucide-react'
+import { brand, whatsappLink } from '@/config/brand'
 import { footerNav } from '@/config/navigation'
 import { categories } from '@/data/categories'
-import { PatchMark, Wordmark } from '@/components/brand/Logo'
+import { HouseMark, Wordmark } from '@/components/brand/Logo'
 import { Clay } from '@/components/ui/Clay'
 
 /** Olive footer with a hand-cut wavy edge and a scatter of clay forms. */
@@ -21,13 +22,22 @@ export function Footer() {
       <div className="container-play relative grid gap-12 pt-10 pb-12 lg:grid-cols-12 lg:pt-14">
         <div className="lg:col-span-4">
           <Link href="/" className="inline-flex items-center gap-3" aria-label={`${brand.name} — home`}>
-            <PatchMark className="size-11" />
+            <HouseMark className="size-11" />
             <span className="rounded-[14px] bg-ivory px-3 py-1">
               <Wordmark className="text-[32px] leading-none" />
             </span>
           </Link>
           <p className="mt-6 max-w-[36ch] text-[15.5px] leading-relaxed text-ivory/80">{brand.description}</p>
-          <p className="t-hand mt-5 text-[24px] text-mustard">Made for play.</p>
+          <a
+            href={whatsappLink}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="mt-5 inline-flex min-h-11 items-center gap-2 rounded-full bg-ivory/12 px-4 text-[15px] font-semibold text-ivory transition-colors hover:bg-ivory/20"
+          >
+            <MessageCircle className="size-4.5" strokeWidth={2.4} aria-hidden />
+            WhatsApp {brand.whatsapp.display}
+          </a>
+          <p className="t-hand mt-5 text-[24px] text-mustard">{brand.headline}</p>
         </div>
 
         <nav aria-label="Footer" className="grid grid-cols-2 gap-10 sm:grid-cols-3 lg:col-span-7 lg:col-start-6">
@@ -79,7 +89,7 @@ export function Footer() {
 
       <div className="container-play relative flex flex-col gap-2 border-t border-ivory/15 py-6 text-[13px] text-ivory/60 sm:flex-row sm:justify-between">
         <p>
-          © {new Date().getFullYear()} {brand.name}. Preview store — products and prices are for demonstration.
+          © {new Date().getFullYear()} {brand.name}. Orders are placed and confirmed on WhatsApp — no online payments are taken on this site.
         </p>
         <p>Photography via Unsplash.</p>
       </div>

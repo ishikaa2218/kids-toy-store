@@ -7,13 +7,23 @@ const letterColor = {
   sky: 'text-[#6f9fd6]',
 } as const
 
-/** A stitched clay patch — the brand mark. */
-export function PatchMark({ className = '' }: { className?: string }) {
+/**
+ * The Kinderhouse mark — a little toy house built from wooden blocks:
+ * a mustard block for the walls, a coral roof and a round sky window.
+ * Wrap it in an element with the `group` class to make the roof hop on hover.
+ */
+export function HouseMark({ className = '' }: { className?: string }) {
   return (
-    <span aria-hidden className={`relative inline-grid place-items-center ${className}`}>
-      <span className="clay absolute inset-0 rounded-[30%] [--clay:var(--color-mustard)]" />
-      <span className="absolute inset-[16%] rounded-[24%] border-2 border-dashed border-ink/55" />
-      <span className="clay relative block size-[34%] rounded-full [--clay:var(--color-coral)]" />
+    <span aria-hidden className={`relative inline-block ${className}`}>
+      {/* roof */}
+      <span
+        className="clay absolute inset-x-[2%] top-[2%] h-[46%] [--clay:var(--color-coral)] transition-transform duration-300 ease-[var(--ease-out-back)] group-hover:-translate-y-[14%] group-hover:-rotate-6"
+        style={{ clipPath: 'polygon(50% 0, 100% 100%, 0 100%)', borderRadius: 4 }}
+      />
+      {/* walls */}
+      <span className="clay absolute inset-x-[12%] top-[44%] bottom-[2%] rounded-[22%] [--clay:var(--color-mustard)]" />
+      {/* window */}
+      <span className="clay absolute top-[56%] left-1/2 size-[30%] -translate-x-1/2 rounded-full [--clay:var(--color-sky)]" />
     </span>
   )
 }

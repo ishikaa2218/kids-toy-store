@@ -1,7 +1,7 @@
 'use client'
 
 import { useRef, type ReactNode } from 'react'
-import { motion, useReducedMotion, useScroll, useTransform, type HTMLMotionProps, type Variants } from 'motion/react'
+import { motion, useMotionTemplate, useReducedMotion, useScroll, useTransform, type HTMLMotionProps, type Variants } from 'motion/react'
 import { ease, inView } from '@/lib/motion'
 
 /** Fade-and-rise for a block entering the viewport. */
@@ -108,6 +108,24 @@ export function Parallax({ children, distance = 50, className }: { children: Rea
   const y = useTransform(scrollYProgress, [0, 1], reduce ? [0, 0] : [distance, -distance])
   return (
     <motion.div ref={ref} style={{ y }} className={className}>
+      {children}
+    </motion.div>
+  )
+}
+
+/**
+ * Uncovers a full-bleed image as it scrolls into view: it starts as a
+ * rounded window inset from the edges and opens out to fill its cell.
+ */
+export function ScrollMask({ children, className = '' }: { children: ReactNode; className?: string }) {
+  const ref = useRef<HTMLDivElement>(null)
+  const reduce = useReducedMotion()
+  const { scrollYProgress } = useScroll({ target: ref, offset: ['start end', 'center center'] })
+  const inset = useTransform(scrollYProgress, [0, 1], [reduce ? 0 : 12, 0])
+  const radius = useTransform(scrollYProgress, [0, 1], [reduce ? 0 : 56, 0])
+  const clipPath = useMotionTemplate`inset(${inset}% ${inset}% ${inset}% ${inset}% round ${radius}px)`
+  return (
+    <motion.div ref={ref} style={{ clipPath }} className={className}>
       {children}
     </motion.div>
   )

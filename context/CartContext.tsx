@@ -1,11 +1,11 @@
 'use client'
 
-import { createContext, useCallback, useContext, useEffect, useMemo, useReducer, useState, type ReactNode } from 'react'
+import { createContext, useCallback, useContext, useEffect, useMemo, useReducer, useRef, useState, type ReactNode } from 'react'
 import { getProductById } from '@/data/products'
 import { effectivePrice } from '@/lib/catalog'
 import type { Product } from '@/types'
 
-const STORAGE_KEY = 'playpatch-cart-v1'
+const STORAGE_KEY = 'kinderhouse-cart-v1'
 const MAX_QTY = 10
 
 type Line = { id: string; qty: number }
@@ -46,6 +46,8 @@ type CartValue = {
   hydrated: boolean
   /** increments on every add — lets the bag icon animate */
   addTick: number
+  /** the most recent add, for the "added to bag" confirmation */
+  lastAdded: { product: Product; qty: number; tick: number } | null
   add: (id: string, qty?: number) => void
   setQty: (id: string, qty: number) => void
   remove: (id: string) => void
@@ -63,6 +65,8 @@ export function CartProvider({ children }: { children: ReactNode }) {
   const [hydrated, setHydrated] = useState(false)
   const [isOpen, setOpen] = useState(false)
   const [addTick, setAddTick] = useState(0)
+  const [lastAdded, setLastAdded] = useState<CartValue['lastAdded']>(null)
+  const tickRef = useRef(0)
 
   // restore from localStorage once, after mount
   useEffect(() => {
@@ -105,7 +109,11 @@ export function CartProvider({ children }: { children: ReactNode }) {
 
   const add = useCallback((id: string, qty = 1) => {
     dispatch({ type: 'add', id, qty })
-    setAddTick((t) => t + 1)
+    tickRef.current += 1
+    const tick = tickRef.current
+    setAddTick(tick)
+    const product = getProductById(id)
+    if (product) setLastAdded({ product, qty, tick })
   }, [])
   const setQty = useCallback((id: string, qty: number) => dispatch({ type: 'set', id, qty }), [])
   const remove = useCallback((id: string) => dispatch({ type: 'remove', id }), [])
@@ -126,6 +134,7 @@ export function CartProvider({ children }: { children: ReactNode }) {
       subtotal: lines.reduce((n, l) => n + l.lineTotal, 0),
       hydrated,
       addTick,
+      lastAdded,
       add,
       setQty,
       remove,
@@ -135,7 +144,7 @@ export function CartProvider({ children }: { children: ReactNode }) {
       close,
       maxQty: MAX_QTY,
     }
-  }, [state.lines, hydrated, addTick, add, setQty, remove, clear, isOpen, open, close])
+  }, [state.lines, hydrated, addTick, lastAdded, add, setQty, remove, clear, isOpen, open, close])
 
   return <CartContext.Provider value={value}>{children}</CartContext.Provider>
 }

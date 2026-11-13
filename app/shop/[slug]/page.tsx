@@ -96,8 +96,8 @@ export default async function ProductPage({ params }: Params) {
             ))}
           </dl>
           <p className="mt-5 rounded-[18px] bg-sand/70 p-4 text-[14px] leading-relaxed text-ink-soft">
-            This is a preview listing. Dimensions, contents and manufacturer safety information will be added once the product is confirmed —
-            please check them before buying for a young child.
+            Dimensions, contents and manufacturer safety information are still being added for this toy — ask us on WhatsApp before ordering
+            for a young child and we’ll confirm the details.
           </p>
         </div>
       </section>

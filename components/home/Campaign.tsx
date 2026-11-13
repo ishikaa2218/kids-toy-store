@@ -1,7 +1,8 @@
 import Image from 'next/image'
 import { ButtonLink } from '@/components/ui/Button'
 import { Clay } from '@/components/ui/Clay'
-import { MaskLines, Parallax, Reveal } from '@/components/ui/Motion'
+import { MaskLines, Parallax, Reveal, ScrollMask } from '@/components/ui/Motion'
+import { Block3D } from '@/components/ui/Block3D'
 import { unsplash } from '@/lib/unsplash'
 
 /** Full-bleed colour-and-photo blocks, after the WOODIC campaign grid. */
@@ -9,7 +10,7 @@ export function Campaign() {
   return (
     <section aria-label="Featured collections" className="grid lg:grid-cols-2">
       {/* Row 1 */}
-      <div className="relative min-h-[380px] overflow-hidden bg-wood lg:min-h-[600px]">
+      <ScrollMask className="relative min-h-[380px] overflow-hidden bg-wood lg:min-h-[600px]">
         <Parallax distance={40} className="absolute -inset-y-[8%] inset-x-0">
           <Image
             src={unsplash('1560859251-d563a49c5e4a')}
@@ -20,9 +21,15 @@ export function Campaign() {
             style={{ objectPosition: '50% 62%' }}
           />
         </Parallax>
-      </div>
+      </ScrollMask>
       <div className="relative flex flex-col justify-center overflow-hidden bg-mustard px-[var(--gutter)] py-16 lg:px-16 lg:py-20">
-        <Clay tone="coral" shape="ball" className="absolute top-10 right-10 size-12" />
+        <span aria-hidden className="absolute top-10 right-10 [perspective:600px] lg:top-14 lg:right-16">
+          <span className="float-a block [transform-style:preserve-3d] [transform:rotateX(-18deg)_rotateY(-34deg)]">
+            <span className="block [animation:kh-spin_18s_linear_infinite] [transform-style:preserve-3d]">
+              <Block3D size="clamp(48px,5vw,72px)" tone="coral" faces={{ front: 'W', right: 'O', back: 'O', left: 'D' }} />
+            </span>
+          </span>
+        </span>
         <Clay tone="leaf" shape="pill" className="absolute right-24 bottom-12 h-6 w-20 rotate-[-20deg]" />
         <MaskLines
           className="font-display text-[clamp(44px,5.6vw,92px)] leading-[0.92] font-[850]"
@@ -56,7 +63,7 @@ export function Campaign() {
           </ButtonLink>
         </Reveal>
       </div>
-      <div className="relative order-3 min-h-[380px] overflow-hidden bg-sand lg:order-4 lg:min-h-[600px]">
+      <ScrollMask className="relative order-3 min-h-[380px] overflow-hidden bg-sand lg:order-4 lg:min-h-[600px]">
         <Parallax distance={40} className="absolute -inset-y-[8%] inset-x-0">
           <Image
             src={unsplash('1624895672076-adeb9a79c589')}
@@ -66,7 +73,7 @@ export function Campaign() {
             className="object-cover"
           />
         </Parallax>
-      </div>
+      </ScrollMask>
     </section>
   )
 }

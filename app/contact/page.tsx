@@ -1,9 +1,9 @@
 import type { Metadata } from 'next'
-import { Mail, MapPin, Phone, Clock } from 'lucide-react'
+import { Mail, MapPin, MessageCircle, Phone, Clock } from 'lucide-react'
 import { ButtonLink } from '@/components/ui/Button'
 import { Clay } from '@/components/ui/Clay'
 import { MaskLines } from '@/components/ui/Motion'
-import { brand } from '@/config/brand'
+import { brand, whatsappLink } from '@/config/brand'
 
 export const metadata: Metadata = {
   title: 'Contact Us',
@@ -14,11 +14,12 @@ export const metadata: Metadata = {
 export default function ContactPage() {
   const c = brand.contact
   const rows = [
+    { icon: MessageCircle, label: 'WhatsApp — orders & questions', value: brand.whatsapp.display, href: whatsappLink, external: true },
     c.email && { icon: Mail, label: 'Email', value: c.email, href: `mailto:${c.email}` },
     c.phone && { icon: Phone, label: 'Phone', value: c.phone, href: `tel:${c.phone.replace(/\s/g, '')}` },
     c.address && { icon: MapPin, label: 'Address', value: c.address },
     c.hours && { icon: Clock, label: 'Hours', value: c.hours },
-  ].filter(Boolean) as { icon: typeof Mail; label: string; value: string; href?: string }[]
+  ].filter(Boolean) as { icon: typeof Mail; label: string; value: string; href?: string; external?: boolean }[]
 
   return (
     <section className="relative overflow-hidden bg-cream">
@@ -29,7 +30,7 @@ export default function ContactPage() {
           <p className="t-hand text-[30px] text-coral">Say hello</p>
           <MaskLines as="h1" trigger="mount" className="t-display mt-2" lines={['We’d love to', 'hear from you']} />
           <p className="mt-6 max-w-[46ch] text-[18px] leading-relaxed text-ink-soft">
-            Questions about a toy, a gift idea or an order? Our contact details will appear here as soon as they’re confirmed.
+            Questions about a toy, a gift idea or an order? The quickest way to reach us is WhatsApp — it’s also where every order is placed and confirmed.
           </p>
         </div>
 
@@ -42,7 +43,11 @@ export default function ContactPage() {
                   <div>
                     <p className="t-eyebrow text-ink-mute">{r.label}</p>
                     {r.href ? (
-                      <a href={r.href} className="link-wiggle text-[17px] font-semibold">
+                      <a
+                        href={r.href}
+                        {...(r.external ? { target: '_blank', rel: 'noopener noreferrer' } : {})}
+                        className="link-wiggle text-[17px] font-semibold"
+                      >
                         {r.value}
                       </a>
                     ) : (
