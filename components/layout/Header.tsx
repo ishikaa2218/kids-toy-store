@@ -10,7 +10,7 @@ import { mainNav } from '@/config/navigation'
 import { ageGroups, categories } from '@/data/categories'
 import { products } from '@/data/products'
 import { useCart } from '@/context/CartContext'
-import { PatchMark, Wordmark } from '@/components/brand/Logo'
+import { HouseMark, Wordmark } from '@/components/brand/Logo'
 import { Clay } from '@/components/ui/Clay'
 import { brand } from '@/config/brand'
 import { SearchOverlay } from './SearchOverlay'
@@ -100,7 +100,7 @@ function HeaderInner({ activeMenuParam }: { activeMenuParam: string | null }) {
       >
         <div className="container-play flex h-[var(--header-h)] items-center gap-2 sm:gap-4">
           <Link href="/" className="group flex min-w-0 shrink-0 items-center gap-2 sm:gap-2.5" aria-label={`${brand.name} — home`}>
-            <PatchMark className="size-8 sm:size-9 transition-transform duration-300 ease-[var(--ease-out-back)] group-hover:rotate-[-8deg] group-hover:scale-105" />
+            <HouseMark className="size-8 sm:size-9 transition-transform duration-300 ease-[var(--ease-out-back)] group-hover:scale-105" />
             <Wordmark className="text-[24px] leading-none sm:text-[27px]" />
           </Link>
 
@@ -158,6 +158,7 @@ function HeaderInner({ activeMenuParam }: { activeMenuParam: string | null }) {
             </button>
             <button
               type="button"
+              id="bag-button"
               onClick={openBag}
               className="relative flex min-h-11 min-w-11 items-center justify-center gap-2 rounded-full px-2.5 text-[15px] font-semibold text-ink/80 transition-colors hover:bg-ink/6 hover:text-ink sm:px-3"
               aria-label={`Shopping bag, ${hydrated ? count : 0} items`}

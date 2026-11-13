@@ -3,11 +3,24 @@
 import Image from 'next/image'
 import Link from 'next/link'
 import { useRef, type PointerEvent } from 'react'
-import { motion, useMotionValue, useReducedMotion, useSpring, useTransform } from 'motion/react'
+import { motion, useMotionTemplate, useMotionValue, useReducedMotion, useSpring, useTransform } from 'motion/react'
 import { getCategory } from '@/data/categories'
 import type { Product, Tone } from '@/types'
 import { AddToCartButton } from './AddToCartButton'
 import { Price } from './Price'
+
+/** the darker "edge" of the toy slab each photo sits on */
+const toneEdge: Record<Tone, string> = {
+  cream: '#d9c7a4',
+  sand: '#d8c09a',
+  olive: '#a3ae7c',
+  leaf: '#a6c585',
+  mustard: '#e3b85a',
+  sky: '#a5c0e0',
+  coral: '#e59a82',
+  orange: '#eba26c',
+  wood: '#c9a983',
+}
 
 const toneBg: Record<Tone, string> = {
   cream: 'bg-[#f4ead6]',
@@ -40,6 +53,11 @@ export function ProductCard({ product, size = 'regular', sizes = '(min-width:102
   const rx = useSpring(useTransform(py, [-0.5, 0.5], [6, -6]), { stiffness: 220, damping: 20 })
   const ry = useSpring(useTransform(px, [-0.5, 0.5], [-8, 8]), { stiffness: 220, damping: 20 })
   const lift = useSpring(0, { stiffness: 260, damping: 22 })
+  const glareX = useTransform(px, [-0.5, 0.5], [0, 100])
+  const glareY = useTransform(py, [-0.5, 0.5], [0, 100])
+  const glare = useMotionTemplate`radial-gradient(circle at ${glareX}% ${glareY}%, rgb(255 255 255 / 0.38), rgb(255 255 255 / 0) 55%)`
+  const shadowX = useTransform(px, [-0.5, 0.5], [14, -14])
+  const shadowScale = useTransform(lift, [-10, 0], [0.86, 1])
 
   const onMove = (e: PointerEvent) => {
     if (reduce || e.pointerType !== 'mouse' || !ref.current) return
@@ -47,7 +65,7 @@ export function ProductCard({ product, size = 'regular', sizes = '(min-width:102
     px.set((e.clientX - r.left) / r.width - 0.5)
     py.set((e.clientY - r.top) / r.height - 0.5)
   }
-  const onEnter = () => !reduce && lift.set(-8)
+  const onEnter = (e: PointerEvent) => !reduce && e.pointerType === 'mouse' && lift.set(-10)
   const onLeave = () => {
     px.set(0)
     py.set(0)
@@ -60,15 +78,26 @@ export function ProductCard({ product, size = 'regular', sizes = '(min-width:102
 
   return (
     <article className="group relative flex flex-col" onPointerMove={onMove} onPointerEnter={onEnter} onPointerLeave={onLeave}>
-      <div className="[perspective:900px]">
+      <div className="relative [perspective:900px]">
+        {/* soft floor shadow that slides and tightens as the toy lifts */}
+        <motion.span
+          aria-hidden
+          style={{ x: shadowX, scale: shadowScale }}
+          className="toy-shadow absolute inset-x-[8%] -bottom-4 h-8 opacity-0 transition-opacity duration-300 group-hover:opacity-100"
+        />
         <motion.div
           ref={ref}
-          style={{ rotateX: rx, rotateY: ry, y: lift, transformStyle: 'preserve-3d' }}
+          style={{ rotateX: rx, rotateY: ry, y: lift, transformStyle: 'preserve-3d', boxShadow: `0 7px 0 ${toneEdge[product.tone]}` }}
           className={`relative overflow-hidden rounded-[var(--radius-card)] ${toneBg[product.tone]} ${
             size === 'large' ? 'aspect-[4/5] sm:aspect-[3/2] lg:aspect-[4/5]' : 'aspect-square'
-          } shadow-[0_1px_0_rgb(42_37_32/0.06)] transition-shadow duration-300 group-hover:shadow-[0_26px_40px_-22px_rgb(70_45_20/0.55)]`}
+          }`}
         >
-          <Link href={href} className="absolute inset-0 z-[1]" aria-label={`View ${product.name}`} />
+          <Link href={href} className="absolute inset-0 z-[1]" aria-label={`View ${product.name}`} data-cursor="view" />
+          <motion.span
+            aria-hidden
+            style={{ backgroundImage: glare }}
+            className="pointer-events-none absolute inset-0 z-[2] opacity-0 mix-blend-soft-light transition-opacity duration-300 group-hover:opacity-100"
+          />
           <Image
             src={product.images[0].src}
             alt={product.images[0].alt}

@@ -1,7 +1,7 @@
 import Link from 'next/link'
 import type { ComponentProps, ReactNode } from 'react'
 
-type Variant = 'olive' | 'coral' | 'mustard' | 'ink' | 'outline' | 'ivory'
+type Variant = 'olive' | 'coral' | 'mustard' | 'ink' | 'outline' | 'ivory' | 'whatsapp'
 
 const variants: Record<Variant, string> = {
   olive: 'bg-olive text-ivory shadow-[0_4px_0_var(--color-olive-deep)] hover:bg-[#667640]',
@@ -10,11 +10,12 @@ const variants: Record<Variant, string> = {
   ink: 'bg-ink text-ivory shadow-[0_4px_0_#000] hover:bg-[#3a332c]',
   outline: 'border-2 border-ink/80 bg-transparent text-ink hover:bg-ink hover:text-ivory',
   ivory: 'bg-ivory text-ink shadow-[0_4px_0_rgb(42_37_32/0.25)] hover:bg-white',
+  whatsapp: 'bg-[#1f9d55] text-white shadow-[0_4px_0_#146c3a] hover:bg-[#22ab5d]',
 }
 
 const base =
   'group/btn inline-flex min-h-12 items-center justify-center gap-2.5 rounded-full px-6 text-[15px] font-bold tracking-[0.01em] ' +
-  'transition-[background-color,color,transform,box-shadow] duration-200 ease-out ' +
+  'transition-[background-color,color,transform,box-shadow] duration-200 ease-out hover:-translate-y-0.5 ' +
   'active:translate-y-[3px] active:shadow-none disabled:pointer-events-none disabled:opacity-50'
 
 type Common = { variant?: Variant; className?: string; children: ReactNode }

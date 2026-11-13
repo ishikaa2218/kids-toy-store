@@ -5,6 +5,7 @@ import { AgeExplorer } from '@/components/home/AgeExplorer'
 import { FeaturedProducts } from '@/components/home/FeaturedProducts'
 import { Campaign } from '@/components/home/Campaign'
 import { Story } from '@/components/home/Story'
+import { BuildWorld } from '@/components/home/BuildWorld'
 import { RecentlyViewed } from '@/components/products/RecentlyViewed'
 
 export default function HomePage() {
@@ -15,6 +16,7 @@ export default function HomePage() {
       <CategoryMosaic />
       <AgeExplorer />
       <FeaturedProducts />
+      <BuildWorld />
       <Campaign />
       <Story />
       <RecentlyViewed title="Pick up where you left off" />

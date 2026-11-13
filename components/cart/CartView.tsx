@@ -1,5 +1,6 @@
 'use client'
 
+import { MessageCircle } from 'lucide-react'
 import { useCart } from '@/context/CartContext'
 import { formatPrice } from '@/lib/format'
 import { products } from '@/data/products'
@@ -44,9 +45,10 @@ export function CartView() {
                     <dd className="font-display text-[26px] font-bold tabular-nums">{formatPrice(subtotal)}</dd>
                   </div>
                 </dl>
-                <p className="mt-3 text-[13px] leading-relaxed text-ink-mute">Delivery and taxes are not calculated in this preview store.</p>
-                <ButtonLink href="/checkout" className="mt-6 w-full">
-                  Continue to checkout
+                <p className="mt-3 text-[13px] leading-relaxed text-ink-mute">No online payment. Orders are placed on WhatsApp, where we confirm availability, delivery and payment with you.</p>
+                <ButtonLink href="/checkout" variant="whatsapp" className="mt-6 w-full">
+                  <MessageCircle className="size-5" strokeWidth={2.4} aria-hidden />
+                  Order on WhatsApp
                 </ButtonLink>
                 <ButtonLink href="/shop" variant="outline" className="mt-3 w-full">
                   Keep shopping

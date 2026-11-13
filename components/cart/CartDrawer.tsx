@@ -3,7 +3,7 @@
 import { useEffect, useRef } from 'react'
 import { usePathname } from 'next/navigation'
 import { AnimatePresence, motion, useReducedMotion } from 'motion/react'
-import { X } from 'lucide-react'
+import { MessageCircle, X } from 'lucide-react'
 import { useCart } from '@/context/CartContext'
 import { formatPrice } from '@/lib/format'
 import { ButtonLink } from '@/components/ui/Button'
@@ -78,15 +78,14 @@ export function CartDrawer() {
                   <span className="text-[15px] text-ink-soft">Subtotal</span>
                   <span className="font-display text-[26px] font-bold tabular-nums">{formatPrice(subtotal)}</span>
                 </div>
-                <p className="mt-1 text-[13px] text-ink-mute">Delivery and taxes are not calculated in this preview.</p>
-                <div className="mt-5 grid grid-cols-2 gap-3">
-                  <ButtonLink href="/cart" variant="outline" onClick={close}>
-                    View bag
-                  </ButtonLink>
-                  <ButtonLink href="/checkout" onClick={close}>
-                    Checkout
-                  </ButtonLink>
-                </div>
+                <p className="mt-1 text-[13px] text-ink-mute">No online payment — you’ll confirm delivery and payment with us on WhatsApp.</p>
+                <ButtonLink href="/checkout" variant="whatsapp" onClick={close} className="mt-5 w-full">
+                  <MessageCircle className="size-5" strokeWidth={2.4} aria-hidden />
+                  Order on WhatsApp
+                </ButtonLink>
+                <ButtonLink href="/cart" variant="outline" onClick={close} className="mt-3 w-full">
+                  View full bag
+                </ButtonLink>
               </div>
             )}
           </motion.div>

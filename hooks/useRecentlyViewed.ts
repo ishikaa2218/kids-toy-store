@@ -2,7 +2,7 @@
 
 import { useCallback, useEffect, useState } from 'react'
 
-const KEY = 'playpatch-recently-viewed-v1'
+const KEY = 'kinderhouse-recently-viewed-v1'
 const MAX = 8
 
 function read(): string[] {
