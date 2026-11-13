@@ -25,12 +25,12 @@ export function BuildWorld() {
   const reduce = useReducedMotion()
   const section = useRef<HTMLElement>(null)
   const [pieces, setPieces] = useState<Piece[]>(() =>
-    WORD.slice(0, 2)
+    WORD.slice(0, 3)
       .split('')
-      .map((l, i) => ({ id: i, letter: l, tone: tones[i], twist: i ? -6 : 4 })),
+      .map((l, i) => ({ id: i, letter: l, tone: tones[i], twist: [4, -6, 5][i] })),
   )
   const [tumbled, setTumbled] = useState<Scatter[] | null>(null)
-  const nextId = useRef(2)
+  const nextId = useRef(3)
 
   // the backdrop warms from cream to a soft sky as the section scrolls through
   const { scrollYProgress } = useScroll({ target: section, offset: ['start end', 'end start'] })
@@ -100,7 +100,7 @@ export function BuildWorld() {
           <div
             role="group"
             aria-label="Block stacking toy"
-            className="relative mx-auto h-[500px] max-w-[520px] rounded-[40px] bg-ivory/55 shadow-[inset_0_0_0_2px_rgb(255_255_255/0.6)]"
+            className="relative mx-auto h-[540px] max-w-[520px] rounded-[40px] bg-ivory/55 shadow-[inset_0_0_0_2px_rgb(255_255_255/0.6)]"
           >
             {/* stage — tapping it drops a block too */}
             <button
@@ -112,7 +112,7 @@ export function BuildWorld() {
               data-cursor-label={tumbled ? 'Rebuild' : full ? 'Full!' : 'Stack'}
               className="absolute inset-0 rounded-[40px] [perspective:1100px]"
             >
-              <span className="absolute bottom-[86px] left-1/2 block size-0 [transform-style:preserve-3d] [transform:rotateX(-16deg)_rotateY(-32deg)]">
+              <span className="absolute bottom-[132px] left-1/2 block size-0 [transform-style:preserve-3d] [transform:rotateX(-16deg)_rotateY(-32deg)]">
                 {/* floor */}
                 <span
                   aria-hidden

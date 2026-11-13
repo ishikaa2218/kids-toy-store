@@ -58,7 +58,7 @@ export function CheckoutView() {
         onClick={() => setHandedOff(true)}
         data-cursor="add"
         data-cursor-label="WhatsApp"
-        className={`group/wa inline-flex min-h-14 items-center justify-center gap-3 rounded-full bg-[#1f9d55] px-7 text-[16.5px] font-bold text-white shadow-[0_5px_0_#146c3a] transition-[transform,box-shadow,background-color] duration-200 hover:-translate-y-0.5 hover:bg-[#22ab5d] active:translate-y-[4px] active:shadow-none ${className}`}
+        className={`group/wa inline-flex items-center justify-center gap-2.5 rounded-full bg-[#1f9d55] font-bold whitespace-nowrap text-white shadow-[0_5px_0_#146c3a] transition-[transform,box-shadow,background-color] duration-200 hover:-translate-y-0.5 hover:bg-[#22ab5d] active:translate-y-[4px] active:shadow-none ${className}`}
       >
         <MessageCircle className="size-5.5 transition-transform duration-300 group-hover/wa:-rotate-12" strokeWidth={2.4} aria-hidden />
         Continue on WhatsApp
@@ -190,7 +190,7 @@ export function CheckoutView() {
             <p className="mt-5 rounded-[16px] bg-leaf/25 p-4 text-[14.5px] leading-relaxed font-semibold text-olive-deep">
               Your order details are ready. Continue on WhatsApp to confirm your order with {brand.name}.
             </p>
-            {cta('mt-5 w-full')}
+            {cta('mt-5 min-h-14 w-full px-4 text-[15.5px] xl:text-[16.5px]')}
             <p className="mt-3 text-center text-[13px] text-ink-mute">Opens WhatsApp chat with {brand.whatsapp.display}</p>
 
             <AnimatePresence>
@@ -225,7 +225,7 @@ export function CheckoutView() {
             <span className="block text-[12px] font-bold tracking-[0.08em] text-ink-mute uppercase">Subtotal</span>
             <span className="font-display text-[22px] leading-none font-bold tabular-nums">{formatPrice(subtotal)}</span>
           </span>
-          {cta('flex-1 min-h-12 px-4 text-[15px]')}
+          {cta('min-h-12 flex-1 px-4 text-[15px]')}
         </div>
       </div>
       <div className="h-24 lg:hidden" aria-hidden />
