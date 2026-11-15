@@ -1,7 +1,8 @@
 import type { Metadata } from 'next'
 import Link from 'next/link'
 import { notFound } from 'next/navigation'
-import { ChevronRight } from 'lucide-react'
+import Image from 'next/image'
+import { ChevronRight, MessageCircle } from 'lucide-react'
 import { getProduct, products, relatedProducts } from '@/data/products'
 import { getCategory } from '@/data/categories'
 import { ProductGallery } from '@/components/products/ProductGallery'
@@ -10,7 +11,7 @@ import { ProductCard } from '@/components/products/ProductCard'
 import { RecentlyViewed } from '@/components/products/RecentlyViewed'
 import { Price } from '@/components/products/Price'
 import { MaskLines } from '@/components/ui/Motion'
-import { Clay } from '@/components/ui/Clay'
+import { categoryArt } from '@/config/visuals'
 
 type Params = { params: Promise<{ slug: string }> }
 
@@ -51,13 +52,13 @@ export default async function ProductPage({ params }: Params) {
         <nav aria-label="Breadcrumb">
           <ol className="flex flex-wrap items-center gap-1.5 text-[14px] text-ink-mute">
             <li>
-              <Link href="/shop" className="link-wiggle hover:text-ink">
+              <Link href="/shop" className="link-line hover:text-ink">
                 Shop
               </Link>
             </li>
             <ChevronRight className="size-3.5" aria-hidden />
             <li>
-              <Link href={`/shop?category=${cat.id}`} className="link-wiggle hover:text-ink">
+              <Link href={`/shop?category=${cat.id}`} className="link-line hover:text-ink">
                 {cat.name}
               </Link>
             </li>
@@ -74,28 +75,36 @@ export default async function ProductPage({ params }: Params) {
           <ProductGallery product={product} />
         </div>
 
-        <div className="relative lg:col-span-5 lg:pt-6">
-          <Clay tone="mustard" shape="ball" className="absolute -top-2 right-2 hidden size-10 lg:block" />
-          <p className="t-eyebrow text-coral">{cat.name}</p>
-          <MaskLines as="h1" trigger="mount" className="mt-2 font-display text-[clamp(38px,4.4vw,64px)] leading-[0.95] font-[850]" lines={[product.name]} />
-          <p className="t-hand mt-3 text-[26px] text-olive">{product.tagline}</p>
-          <div className="mt-6 flex items-center gap-4">
-            <Price product={product} className="font-display text-[34px]" />
-            {product.ageLabel && <span className="rounded-full bg-sky/50 px-3 py-1.5 text-[14px] font-bold">{product.ageLabel}</span>}
+        <div className="lg:col-span-5 lg:pt-4">
+          <Link href={`/shop?category=${cat.id}`} className="group inline-flex items-center gap-2.5">
+            <Image src={categoryArt[cat.id].src} alt="" width={434} height={442} unoptimized className="w-9 transition-transform duration-300 group-hover:-rotate-6" />
+            <span className="t-eyebrow text-ink-soft group-hover:text-ink">{cat.name}</span>
+          </Link>
+          <MaskLines as="h1" trigger="mount" className="mt-4 font-display text-[clamp(36px,4.2vw,58px)] leading-[1] font-[620] tracking-[-0.015em]" lines={[product.name]} />
+          <p className="mt-3 font-display text-[21px] leading-snug text-ink-soft">{product.tagline}</p>
+          <div className="mt-6 flex flex-wrap items-center gap-3">
+            <Price product={product} className="font-display text-[32px] !font-semibold" />
+            {product.ageLabel && <span className="rounded-full bg-sky-soft px-3.5 py-1.5 text-[14px] font-bold">{product.ageLabel}</span>}
           </div>
           <p className="mt-6 max-w-[54ch] text-[17px] leading-relaxed text-ink-soft">{product.description}</p>
 
           <ProductPurchase product={product} />
+          <p className="mt-4 inline-flex items-start gap-2 text-[14px] leading-relaxed text-ink-mute">
+            <MessageCircle className="mt-0.5 size-4 shrink-0 text-whatsapp" strokeWidth={2.4} aria-hidden />
+            Add it to your bag, then order on WhatsApp — we confirm availability and delivery in the chat.
+          </p>
 
-          <dl className="mt-10 border-t-2 border-ink/10">
-            {details.map((d) => (
-              <div key={d.k} className="grid grid-cols-[10rem_1fr] gap-4 border-b-2 border-ink/10 py-4 text-[15px]">
-                <dt className="font-bold">{d.k}</dt>
-                <dd className="text-ink-soft">{d.v}</dd>
-              </div>
-            ))}
-          </dl>
-          <p className="mt-5 rounded-[18px] bg-sand/70 p-4 text-[14px] leading-relaxed text-ink-soft">
+          {details.length > 0 && (
+            <dl className="mt-10 border-t border-line">
+              {details.map((d) => (
+                <div key={d.k} className="grid grid-cols-[9.5rem_1fr] gap-4 border-b border-line py-4 text-[15px]">
+                  <dt className="font-bold">{d.k}</dt>
+                  <dd className="text-ink-soft">{d.v}</dd>
+                </div>
+              ))}
+            </dl>
+          )}
+          <p className="mt-5 rounded-[20px] bg-oat p-4 text-[14px] leading-relaxed text-ink-soft">
             Dimensions, contents and manufacturer safety information are still being added for this toy — ask us on WhatsApp before ordering
             for a young child and we’ll confirm the details.
           </p>
@@ -103,16 +112,15 @@ export default async function ProductPage({ params }: Params) {
       </section>
 
       {related.length > 0 && (
-        <section aria-labelledby="related-title" className="bg-ivory py-16 lg:py-24">
+        <section aria-labelledby="related-title" className="panel py-20 lg:py-24">
           <div className="container-play">
-            <p className="t-hand text-[26px] text-coral">Plays well with</p>
-            <h2 id="related-title" className="t-h2 mt-1">
+            <h2 id="related-title" className="t-h2">
               You might also like
             </h2>
-            <ul className="mt-10 grid grid-cols-2 gap-x-3 gap-y-9 sm:gap-x-6 sm:gap-y-12 lg:grid-cols-4">
+            <ul className="mt-10 grid grid-cols-2 gap-x-4 gap-y-10 sm:gap-x-6 lg:grid-cols-4">
               {related.map((p) => (
                 <li key={p.id}>
-                  <ProductCard product={p} sizes="(min-width:1024px) 22vw, 45vw" />
+                  <ProductCard product={p} sizes="(min-width:1024px) 300px, 46vw" />
                 </li>
               ))}
             </ul>
