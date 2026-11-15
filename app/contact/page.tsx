@@ -1,7 +1,6 @@
 import type { Metadata } from 'next'
 import { Mail, MapPin, MessageCircle, Phone, Clock } from 'lucide-react'
 import { ButtonLink } from '@/components/ui/Button'
-import { Clay } from '@/components/ui/Clay'
 import { MaskLines } from '@/components/ui/Motion'
 import { brand, whatsappLink } from '@/config/brand'
 
@@ -23,30 +22,28 @@ export default function ContactPage() {
 
   return (
     <section className="relative overflow-hidden bg-cream">
-      <Clay tone="sky" shape="blob" className="absolute top-16 -right-16 h-48 w-64 rotate-12" />
-      <Clay tone="coral" shape="ball" className="absolute right-[18%] bottom-20 hidden size-14 md:block" />
-      <div className="container-play relative grid gap-12 py-16 lg:grid-cols-12 lg:py-24">
+      <div className="container-play relative grid gap-12 pt-12 pb-24 lg:grid-cols-12 lg:pt-20 lg:pb-32">
         <div className="lg:col-span-6">
-          <p className="t-hand text-[30px] text-coral">Say hello</p>
-          <MaskLines as="h1" trigger="mount" className="t-display mt-2" lines={['We’d love to', 'hear from you']} />
-          <p className="mt-6 max-w-[46ch] text-[18px] leading-relaxed text-ink-soft">
+          <p className="t-eyebrow text-tangerine-deep">Contact Us</p>
+          <MaskLines as="h1" trigger="mount" className="t-display mt-4 !text-[clamp(44px,6vw,92px)]" lines={['We’d love to', 'hear from you']} />
+          <p className="t-lead mt-6 max-w-[46ch]">
             Questions about a toy, a gift idea or an order? The quickest way to reach us is WhatsApp — it’s also where every order is placed and confirmed.
           </p>
         </div>
 
-        <div className="lg:col-span-5 lg:col-start-8">
+        <div className="lg:col-span-5 lg:col-start-8 lg:pt-10">
           {rows.length ? (
-            <ul className="divide-y-2 divide-ink/10 rounded-[28px] bg-ivory px-6">
+            <ul className="divide-y divide-line rounded-[32px] bg-paper px-7">
               {rows.map((r) => (
                 <li key={r.label} className="flex items-start gap-4 py-5">
-                  <r.icon className="mt-1 size-5 text-olive" aria-hidden />
+                  <r.icon className="mt-1 size-5 text-whatsapp" aria-hidden />
                   <div>
                     <p className="t-eyebrow text-ink-mute">{r.label}</p>
                     {r.href ? (
                       <a
                         href={r.href}
                         {...(r.external ? { target: '_blank', rel: 'noopener noreferrer' } : {})}
-                        className="link-wiggle text-[17px] font-semibold"
+                        className="link-line text-[17px] font-semibold"
                       >
                         {r.value}
                       </a>
@@ -58,8 +55,8 @@ export default function ContactPage() {
               ))}
             </ul>
           ) : (
-            <div className="rounded-[28px] bg-ivory p-8">
-              <p className="font-display text-[26px] leading-tight font-bold">Contact details coming soon</p>
+            <div className="rounded-[32px] bg-paper p-8">
+              <p className="font-display text-[26px] leading-tight font-semibold">Contact details coming soon</p>
               <p className="mt-3 text-[16px] leading-relaxed text-ink-soft">
                 We’re setting up our customer contact channels. Once our email, phone number and address are confirmed, you’ll find them right
                 here.
@@ -68,7 +65,7 @@ export default function ContactPage() {
               <div className="mt-6 flex flex-wrap gap-3">
                 <ButtonLink href="/shop">Browse toys</ButtonLink>
                 <ButtonLink href="/about" variant="outline">
-                  Our story
+                  About us
                 </ButtonLink>
               </div>
             </div>
