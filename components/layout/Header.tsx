@@ -11,7 +11,7 @@ import { ageGroups, categories } from '@/data/categories'
 import { products } from '@/data/products'
 import { useCart } from '@/context/CartContext'
 import { HouseMark, Wordmark } from '@/components/brand/Logo'
-import { Clay } from '@/components/ui/Clay'
+import { ageArt, categoryArt } from '@/config/visuals'
 import { brand } from '@/config/brand'
 import { SearchOverlay } from './SearchOverlay'
 
@@ -49,7 +49,7 @@ function HeaderInner({ activeMenuParam }: { activeMenuParam: string | null }) {
   }, [pathname, activeMenuParam])
 
   useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 40)
+    const onScroll = () => setScrolled(window.scrollY > 24)
     onScroll()
     window.addEventListener('scroll', onScroll, { passive: true })
     return () => window.removeEventListener('scroll', onScroll)
@@ -88,25 +88,26 @@ function HeaderInner({ activeMenuParam }: { activeMenuParam: string | null }) {
   const closeSearch = useCallback(() => setSearch(false), [])
 
   const isActive = (href: string) => (href === '/' ? pathname === '/' : href.startsWith('/shop?') ? false : pathname.startsWith(href))
+  const shown = hydrated ? count : 0
 
   return (
     <>
       <header
         ref={headerRef}
         className={`sticky top-0 z-50 transition-[background-color,box-shadow] duration-300 ${
-          scrolled || menu || mobile ? 'bg-ivory shadow-[0_1px_0_rgb(42_37_32/0.1)]' : 'bg-cream'
+          scrolled || menu || mobile ? 'bg-cream/95 shadow-[0_1px_0_var(--color-line)] backdrop-blur-md' : 'bg-cream'
         }`}
         onMouseLeave={hoverClose}
       >
-        <div className="container-play flex h-[var(--header-h)] items-center gap-2 sm:gap-4">
-          <Link href="/" className="group flex min-w-0 shrink-0 items-center gap-2 sm:gap-2.5" aria-label={`${brand.name} — home`}>
-            <HouseMark className="size-8 sm:size-9 transition-transform duration-300 ease-[var(--ease-out-back)] group-hover:scale-105" />
-            <Wordmark className="text-[24px] leading-none sm:text-[27px]" />
+        <div className="container-wide flex h-[var(--header-h)] items-center gap-3">
+          <Link href="/" className="group flex shrink-0 items-center gap-2.5" aria-label={`${brand.name} — home`}>
+            <HouseMark className="w-9 transition-transform duration-300 ease-[var(--ease-out-back)] group-hover:-translate-y-0.5 group-hover:-rotate-6 sm:w-10" />
+            <Wordmark className="text-[25px] leading-none sm:text-[27px]" />
           </Link>
 
           {/* Desktop navigation */}
           <nav aria-label="Main" className="mx-auto hidden lg:block">
-            <ul className="flex items-center gap-1 xl:gap-2">
+            <ul className="flex items-center gap-1">
               {mainNav.map((item) => {
                 if (item.menu) {
                   const id = item.menu
@@ -118,11 +119,12 @@ function HeaderInner({ activeMenuParam }: { activeMenuParam: string | null }) {
                         aria-expanded={expanded}
                         aria-controls={`menu-${id}`}
                         onClick={() => setMenu(expanded ? null : id)}
-                        className="group relative flex min-h-11 items-center gap-1 px-3 text-[15px] font-semibold text-ink/80 transition-colors hover:text-olive"
+                        className={`flex min-h-11 items-center gap-1 rounded-full px-3.5 text-[15.5px] font-semibold transition-colors hover:text-ink ${
+                          expanded ? 'text-ink' : 'text-ink-soft'
+                        }`}
                       >
-                        {item.label}
+                        <span className={`link-line pb-0.5 ${expanded ? '[background-size:100%_2px]' : ''}`}>{item.label}</span>
                         <ChevronDown className={`size-4 transition-transform duration-300 ${expanded ? 'rotate-180' : ''}`} strokeWidth={2.4} />
-                        <NavDot active={expanded} />
                       </button>
                     </li>
                   )
@@ -133,12 +135,11 @@ function HeaderInner({ activeMenuParam }: { activeMenuParam: string | null }) {
                     <Link
                       href={item.href}
                       aria-current={active ? 'page' : undefined}
-                      className={`group relative flex min-h-11 items-center px-3 text-[15px] font-semibold transition-colors hover:text-olive ${
-                        active ? 'text-olive' : 'text-ink/80'
+                      className={`flex min-h-11 items-center rounded-full px-3.5 text-[15.5px] font-semibold transition-colors hover:text-ink ${
+                        active ? 'text-ink' : 'text-ink-soft'
                       }`}
                     >
-                      {item.label}
-                      <NavDot active={active} />
+                      <span className={`link-line pb-0.5 ${active ? '[background-size:100%_2px]' : ''}`}>{item.label}</span>
                     </Link>
                   </li>
                 )
@@ -146,36 +147,34 @@ function HeaderInner({ activeMenuParam }: { activeMenuParam: string | null }) {
             </ul>
           </nav>
 
-          <div className="ml-auto flex items-center gap-0.5 sm:gap-1 lg:ml-0">
+          <div className="ml-auto flex items-center gap-1 lg:ml-0">
             <button
               type="button"
               onClick={() => setSearch(true)}
-              className="flex min-h-11 min-w-11 items-center justify-center gap-2 rounded-full px-2.5 text-[15px] font-semibold text-ink/80 transition-colors hover:bg-ink/6 hover:text-ink sm:px-3"
+              className="grid size-11 place-items-center rounded-full text-ink transition-colors hover:bg-oat"
               aria-label="Search toys"
             >
-              <Search className="size-5" strokeWidth={2.2} />
-              <span className="hidden xl:inline">Search</span>
+              <Search className="size-[21px]" strokeWidth={2.2} />
             </button>
             <button
               type="button"
               id="bag-button"
               onClick={openBag}
-              className="relative flex min-h-11 min-w-11 items-center justify-center gap-2 rounded-full px-2.5 text-[15px] font-semibold text-ink/80 transition-colors hover:bg-ink/6 hover:text-ink sm:px-3"
-              aria-label={`Shopping bag, ${hydrated ? count : 0} items`}
+              className="relative grid size-11 place-items-center rounded-full text-ink transition-colors hover:bg-oat"
+              aria-label={`Shopping bag, ${shown} items`}
             >
-              <ShoppingBag className="size-5" strokeWidth={2.2} />
-              <span className="hidden xl:inline">Bag</span>
+              <ShoppingBag className="size-[21px]" strokeWidth={2.2} />
               <motion.span
                 key={addTick}
-                initial={reduce || addTick === 0 ? false : { scale: 0.4, y: -6 }}
+                initial={reduce || addTick === 0 ? false : { scale: 0.3, y: -8 }}
                 animate={{ scale: 1, y: 0 }}
-                transition={{ type: 'spring', stiffness: 520, damping: 14 }}
-                className={`clay absolute top-0 right-0 grid h-5 min-w-5 place-items-center rounded-full px-1 text-[11px] xl:static xl:h-6 xl:min-w-6 xl:px-1.5 xl:text-[12px] font-extrabold text-ivory [--clay:var(--color-coral)] ${
-                  hydrated && count > 0 ? '' : 'opacity-0'
+                transition={{ type: 'spring', stiffness: 560, damping: 15 }}
+                className={`absolute -top-0.5 -right-0.5 grid h-[22px] min-w-[22px] place-items-center rounded-full border-2 border-cream bg-tangerine px-1 text-[11.5px] leading-none font-extrabold text-ink tabular-nums transition-opacity ${
+                  shown > 0 ? 'opacity-100' : 'opacity-0'
                 }`}
                 aria-hidden
               >
-                <span className="relative z-[1]">{hydrated ? count : 0}</span>
+                {shown}
               </motion.span>
             </button>
             <button
@@ -186,31 +185,31 @@ function HeaderInner({ activeMenuParam }: { activeMenuParam: string | null }) {
               }}
               aria-expanded={mobile}
               aria-controls="mobile-menu"
-              className="flex min-h-11 items-center gap-2 rounded-full px-2.5 text-[15px] font-bold sm:ml-1 sm:gap-2.5 sm:px-3 lg:hidden"
+              aria-label={mobile ? 'Close menu' : 'Open menu'}
+              className="ml-0.5 grid size-11 place-items-center rounded-full bg-ink text-paper lg:hidden"
             >
-              {mobile ? 'Close' : 'Menu'}
-              <span aria-hidden className="relative block h-3 w-5">
-                <span className={`absolute left-0 h-[2.5px] w-5 rounded-full bg-ink transition-all duration-300 ${mobile ? 'top-[5px] rotate-45' : 'top-0'}`} />
-                <span className={`absolute left-0 h-[2.5px] rounded-full bg-ink transition-all duration-300 ${mobile ? 'top-[5px] w-5 -rotate-45' : 'top-[9px] w-3.5'}`} />
+              <span aria-hidden className="relative block h-3 w-[18px]">
+                <span className={`absolute left-0 h-[2.5px] w-[18px] rounded-full bg-current transition-all duration-300 ${mobile ? 'top-[5px] rotate-45' : 'top-0'}`} />
+                <span className={`absolute left-0 h-[2.5px] w-[18px] rounded-full bg-current transition-all duration-300 ${mobile ? 'top-[5px] -rotate-45' : 'top-[9px]'}`} />
               </span>
             </button>
           </div>
         </div>
 
-        {/* Desktop mega menus */}
+        {/* Desktop menus */}
         <AnimatePresence>
           {menu && (
             <motion.div
               key={menu}
               id={`menu-${menu}`}
               onMouseEnter={() => hoverOpen(menu)}
-              initial={reduce ? { opacity: 0 } : { opacity: 0, y: -10 }}
+              initial={reduce ? { opacity: 0 } : { opacity: 0, y: -8 }}
               animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -6, transition: { duration: 0.15 } }}
-              transition={{ duration: 0.28, ease: [0.22, 1, 0.36, 1] }}
-              className="absolute inset-x-0 top-full hidden border-t border-ink/8 bg-ivory shadow-[0_24px_40px_-28px_rgb(70_45_20/0.5)] lg:block"
+              exit={{ opacity: 0, y: -4, transition: { duration: 0.15 } }}
+              transition={{ duration: 0.26, ease: [0.22, 1, 0.36, 1] }}
+              className="absolute inset-x-0 top-full hidden border-t border-line bg-paper shadow-[0_30px_50px_-34px_rgb(60_40_20/0.45)] lg:block"
             >
-              <div className="container-play py-8">{menu === 'age' ? <AgeMenu /> : <CategoryMenu />}</div>
+              <div className="container-wide py-8">{menu === 'age' ? <AgeMenu /> : <CategoryMenu />}</div>
             </motion.div>
           )}
         </AnimatePresence>
@@ -221,12 +220,12 @@ function HeaderInner({ activeMenuParam }: { activeMenuParam: string | null }) {
         {mobile && (
           <motion.div
             id="mobile-menu"
-            initial={reduce ? { opacity: 0 } : { clipPath: 'inset(0 0 100% 0)' }}
-            animate={reduce ? { opacity: 1 } : { clipPath: 'inset(0 0 0% 0)' }}
-            exit={reduce ? { opacity: 0 } : { clipPath: 'inset(0 0 100% 0)' }}
-            transition={{ duration: 0.45, ease: [0.65, 0, 0.35, 1] }}
+            initial={reduce ? { opacity: 0 } : { opacity: 0, y: -12 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={reduce ? { opacity: 0 } : { opacity: 0, y: -12 }}
+            transition={{ duration: 0.3, ease: [0.22, 1, 0.36, 1] }}
             style={{ top: menuTop }}
-            className="fixed inset-x-0 bottom-0 z-40 overflow-y-auto bg-ivory lg:hidden"
+            className="fixed inset-x-0 bottom-0 z-40 overflow-y-auto bg-paper lg:hidden"
           >
             <MobileMenu pathname={pathname} />
           </motion.div>
@@ -238,17 +237,6 @@ function HeaderInner({ activeMenuParam }: { activeMenuParam: string | null }) {
   )
 }
 
-function NavDot({ active }: { active: boolean }) {
-  return (
-    <span
-      aria-hidden
-      className={`clay absolute bottom-0.5 left-1/2 size-1.5 -translate-x-1/2 rounded-full transition-transform duration-300 ease-[var(--ease-out-back)] [--clay:var(--color-coral)] ${
-        active ? 'scale-100' : 'scale-0 group-hover:scale-100'
-      }`}
-    />
-  )
-}
-
 const countFor = {
   age: (id: string) => products.filter((p) => p.ageGroups.includes(id as never)).length,
   cat: (id: string) => products.filter((p) => p.category === id).length,
@@ -256,58 +244,55 @@ const countFor = {
 
 function AgeMenu() {
   return (
-    <div className="grid grid-cols-[1fr_3fr] gap-10">
-      <div>
-        <p className="t-hand text-[26px] text-coral">Who’s it for?</p>
-        <p className="mt-2 max-w-[28ch] text-[15px] text-ink-soft">Pick an age to see toys suggested for that stage of play.</p>
-      </div>
-      <ul className="grid grid-cols-4 gap-4">
-        {ageGroups.map((a, i) => (
-          <li key={a.id}>
-            <Link href={`/shop?age=${a.id}`} className="group flex items-center gap-4 rounded-[20px] p-3 transition-colors hover:bg-sand/70">
-              <span
-                className="clay grid size-16 shrink-0 place-items-center rounded-[38%] font-display text-[22px] font-extrabold text-ivory transition-transform duration-300 ease-[var(--ease-out-back)] group-hover:-rotate-6 group-hover:scale-105"
-                style={{ ['--clay' as string]: ['var(--color-sky)', 'var(--color-mustard)', 'var(--color-coral)', 'var(--color-leaf)'][i] }}
-              >
-                <span className="relative z-[1] drop-shadow-[0_1px_0_rgb(0_0_0/0.25)]">{a.label}</span>
+    <ul className="grid grid-cols-4 gap-6">
+      {ageGroups.map((a) => (
+        <li key={a.id}>
+          <Link href={`/shop?age=${a.id}`} className="group flex items-center gap-4 rounded-[22px] p-3 transition-colors hover:bg-cream">
+            <Image
+              src={ageArt[a.id]}
+              alt=""
+              width={520}
+              height={400}
+              unoptimized
+              className="w-20 shrink-0 transition-transform duration-300 ease-[var(--ease-out-back)] group-hover:-translate-y-1 group-hover:-rotate-3"
+            />
+            <span>
+              <span className="block font-display text-[19px] font-semibold">Ages {a.label}</span>
+              <span className="text-[14px] text-ink-mute">
+                {a.title} · {countFor.age(a.id)} toys
               </span>
-              <span>
-                <span className="block font-display text-[18px] font-bold">{a.title}</span>
-                <span className="text-[13px] text-ink-mute">{countFor.age(a.id)} toys</span>
-              </span>
-            </Link>
-          </li>
-        ))}
-      </ul>
-    </div>
+            </span>
+          </Link>
+        </li>
+      ))}
+    </ul>
   )
 }
 
 function CategoryMenu() {
   return (
-    <div className="grid grid-cols-[1fr_3fr] gap-10">
-      <div>
-        <p className="t-hand text-[26px] text-coral">Browse the toy box</p>
-        <p className="mt-2 max-w-[28ch] text-[15px] text-ink-soft">Six kinds of play, from first stackers to big-kid puzzles.</p>
-        <Link href="/shop" className="link-wiggle mt-5 inline-block font-bold text-olive">
-          See all toys
-        </Link>
-      </div>
-      <ul className="grid grid-cols-3 gap-3">
+    <div className="flex items-start gap-8">
+      <ul className="grid flex-1 grid-cols-6 gap-3">
         {categories.map((c) => (
           <li key={c.id}>
-            <Link href={`/shop?category=${c.id}`} className="group flex items-center gap-4 rounded-[20px] p-2.5 transition-colors hover:bg-sand/70">
-              <span className="relative size-16 shrink-0 overflow-hidden mask-pebble bg-sand">
-                <Image src={c.image.src} alt="" fill sizes="64px" className="object-cover transition-transform duration-500 group-hover:scale-110" style={{ objectPosition: c.image.focus }} />
-              </span>
-              <span>
-                <span className="block font-display text-[18px] font-bold">{c.name}</span>
-                <span className="text-[13px] text-ink-mute">{countFor.cat(c.id)} toys</span>
-              </span>
+            <Link href={`/shop?category=${c.id}`} className="group flex flex-col items-center rounded-[22px] px-2 pt-3 pb-4 text-center transition-colors hover:bg-cream">
+              <Image
+                src={categoryArt[c.id].src}
+                alt=""
+                width={434}
+                height={442}
+                unoptimized
+                className="w-[84px] transition-transform duration-300 ease-[var(--ease-out-back)] group-hover:-translate-y-1 group-hover:rotate-3"
+              />
+              <span className="mt-2 font-display text-[17px] leading-tight font-semibold">{c.name}</span>
+              <span className="text-[13.5px] text-ink-mute">{countFor.cat(c.id)} toys</span>
             </Link>
           </li>
         ))}
       </ul>
+      <Link href="/shop" className="mt-6 shrink-0 text-[15px] font-bold text-ink">
+        <span className="link-line">See all toys →</span>
+      </Link>
     </div>
   )
 }
@@ -316,24 +301,18 @@ function MobileMenu({ pathname }: { pathname: string }) {
   const links = [
     { href: '/', label: 'Home' },
     { href: '/shop', label: 'Shop all toys' },
-    { href: '/about', label: 'Our Story' },
+    { href: '/about', label: 'About Us' },
     { href: '/contact', label: 'Contact' },
   ]
   return (
-    <nav aria-label="Mobile" className="container-play pt-4 pb-12">
+    <nav aria-label="Mobile" className="container-wide pt-3 pb-14">
       <ul>
         {links.map((l, i) => (
-          <motion.li
-            key={l.href}
-            initial={{ opacity: 0, y: 14 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.1 + i * 0.05 }}
-            className="border-b border-ink/10"
-          >
+          <motion.li key={l.href} initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.05 + i * 0.04 }}>
             <Link
               href={l.href}
               aria-current={pathname === l.href ? 'page' : undefined}
-              className={`flex min-h-16 items-center font-display text-[32px] font-bold ${pathname === l.href ? 'text-olive' : ''}`}
+              className={`flex min-h-14 items-center font-display text-[30px] font-semibold ${pathname === l.href ? 'text-tangerine-deep' : ''}`}
             >
               {l.label}
             </Link>
@@ -341,36 +320,29 @@ function MobileMenu({ pathname }: { pathname: string }) {
         ))}
       </ul>
 
-      <p className="t-eyebrow mt-8 text-ink-mute">Shop by age</p>
-      <ul className="mt-3 grid grid-cols-4 gap-2">
-        {ageGroups.map((a, i) => (
-          <li key={a.id}>
-            <Link
-              href={`/shop?age=${a.id}`}
-              className="clay grid aspect-square place-items-center rounded-[34%] font-display text-[20px] font-extrabold text-ivory"
-              style={{ ['--clay' as string]: ['var(--color-sky)', 'var(--color-mustard)', 'var(--color-coral)', 'var(--color-leaf)'][i] }}
-              aria-label={`Toys for ages ${a.label}`}
-            >
-              <span className="relative z-[1]">{a.label}</span>
+      <p className="t-eyebrow mt-8 text-ink-mute">Categories</p>
+      <ul className="mt-3 grid grid-cols-3 gap-2">
+        {categories.map((c) => (
+          <li key={c.id}>
+            <Link href={`/shop?category=${c.id}`} className="flex flex-col items-center rounded-[18px] bg-cream px-1 pt-3 pb-3 text-center">
+              <Image src={categoryArt[c.id].src} alt="" width={434} height={442} unoptimized className="w-14" />
+              <span className="mt-1.5 text-[13.5px] leading-tight font-semibold">{c.name}</span>
             </Link>
           </li>
         ))}
       </ul>
 
-      <p className="t-eyebrow mt-8 text-ink-mute">Categories</p>
-      <ul className="mt-3 grid grid-cols-2 gap-2">
-        {categories.map((c) => (
-          <li key={c.id}>
-            <Link href={`/shop?category=${c.id}`} className="flex min-h-14 items-center gap-3 rounded-[16px] bg-sand/60 p-2 text-[15px] font-semibold">
-              <span className="relative size-10 shrink-0 overflow-hidden mask-pebble">
-                <Image src={c.image.src} alt="" fill sizes="40px" className="object-cover" />
-              </span>
-              {c.name}
+      <p className="t-eyebrow mt-8 text-ink-mute">Shop by age</p>
+      <ul className="mt-3 grid grid-cols-4 gap-2">
+        {ageGroups.map((a) => (
+          <li key={a.id}>
+            <Link href={`/shop?age=${a.id}`} className="flex flex-col items-center rounded-[18px] bg-cream px-1 py-3" aria-label={`Toys for ages ${a.label}`}>
+              <Image src={ageArt[a.id]} alt="" width={520} height={400} unoptimized className="w-14" />
+              <span className="mt-1 text-[13.5px] font-semibold">{a.label}</span>
             </Link>
           </li>
         ))}
       </ul>
-      <Clay tone="mustard" shape="blob" className="mt-12 h-10 w-16 opacity-80" />
     </nav>
   )
 }

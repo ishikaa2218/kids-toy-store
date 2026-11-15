@@ -50,14 +50,14 @@ export function SearchOverlay({ open, onClose }: { open: boolean; onClose: () =>
             animate={{ y: 0, opacity: 1 }}
             exit={reduce ? { opacity: 0 } : { y: -16, opacity: 0 }}
             transition={{ type: 'spring', stiffness: 360, damping: 32 }}
-            className="relative max-h-[88svh] overflow-y-auto bg-ivory pb-8"
+            className="relative max-h-[88svh] overflow-y-auto bg-paper pb-8"
           >
             <form
               onSubmit={(e) => {
                 e.preventDefault()
                 submit(q)
               }}
-              className="container-play flex items-center gap-3 border-b border-ink/10 py-5"
+              className="container-play flex items-center gap-3 border-b border-line py-5"
               role="search"
             >
               <Search className="size-6 shrink-0 text-ink-mute" strokeWidth={2.2} aria-hidden />
@@ -73,7 +73,7 @@ export function SearchOverlay({ open, onClose }: { open: boolean; onClose: () =>
                 autoComplete="off"
                 className="min-w-0 flex-1 bg-transparent font-display text-[clamp(22px,3vw,34px)] font-semibold outline-none placeholder:text-ink/30"
               />
-              <button type="button" onClick={onClose} className="grid size-11 shrink-0 place-items-center rounded-full hover:bg-ink/8" aria-label="Close search">
+              <button type="button" onClick={onClose} className="grid size-11 shrink-0 place-items-center rounded-full hover:bg-oat" aria-label="Close search">
                 <X className="size-5" strokeWidth={2.2} />
               </button>
             </form>
@@ -88,7 +88,7 @@ export function SearchOverlay({ open, onClose }: { open: boolean; onClose: () =>
                         key={s}
                         type="button"
                         onClick={() => setQ(s)}
-                        className="min-h-10 rounded-full border-2 border-ink/12 px-4 text-[14px] font-semibold transition-colors hover:border-olive hover:bg-olive hover:text-ivory"
+                        className="min-h-10 rounded-full border-2 border-line px-4 text-[14px] font-semibold transition-colors hover:border-ink hover:bg-ink hover:text-paper"
                       >
                         {s}
                       </button>
@@ -103,12 +103,12 @@ export function SearchOverlay({ open, onClose }: { open: boolean; onClose: () =>
                   <ul className="mt-3 grid gap-2 sm:grid-cols-2 lg:grid-cols-3">
                     {results.map((p) => (
                       <li key={p.id}>
-                        <Link href={`/shop/${p.slug}`} onClick={onClose} className="group flex items-center gap-4 rounded-[18px] p-2 transition-colors hover:bg-sand/70">
-                          <span className="relative size-16 shrink-0 overflow-hidden rounded-[14px] bg-sand">
+                        <Link href={`/shop/${p.slug}`} onClick={onClose} className="group flex items-center gap-4 rounded-[18px] p-2 transition-colors hover:bg-oat">
+                          <span className="relative size-16 shrink-0 overflow-hidden rounded-[14px] bg-oat">
                             <Image src={p.images[0].src} alt="" fill sizes="64px" className="object-cover" style={{ objectPosition: p.images[0].focus }} />
                           </span>
                           <span className="min-w-0">
-                            <span className="block truncate font-display text-[18px] font-bold">{p.name}</span>
+                            <span className="block truncate font-display text-[18px] font-semibold">{p.name}</span>
                             <span className="text-[13px] text-ink-mute">
                               {getCategory(p.category)?.name} · {formatPrice(p.price)}
                             </span>
@@ -117,13 +117,13 @@ export function SearchOverlay({ open, onClose }: { open: boolean; onClose: () =>
                       </li>
                     ))}
                   </ul>
-                  <button type="button" onClick={() => submit(q)} className="mt-5 inline-flex min-h-11 items-center gap-2 font-bold text-olive">
+                  <button type="button" onClick={() => submit(q)} className="mt-5 inline-flex min-h-11 items-center gap-2 font-bold text-ink">
                     See all results <ArrowRight className="size-4 transition-transform group-hover:translate-x-1" />
                   </button>
                 </div>
               ) : (
                 <p className="text-[16px] text-ink-soft" aria-live="polite">
-                  No toys match “{q}”. Try a simpler word like <button type="button" className="font-bold text-olive underline" onClick={() => setQ('wooden')}>wooden</button>.
+                  No toys match “{q}”. Try a simpler word like <button type="button" className="font-bold text-ink underline" onClick={() => setQ('wooden')}>wooden</button>.
                 </p>
               )}
             </div>
