@@ -1,50 +1,60 @@
 @import 'tailwindcss';
-@import '@fontsource-variable/grandstander';
+@import '@fontsource-variable/fredoka';
 @import '@fontsource-variable/figtree';
-@import '@fontsource/caveat/latin-600.css';
-@import '@fontsource/caveat/latin-700.css';
 
 /* ------------------------------------------------------------------
-   Kinderhouse design tokens
-   Warm neutrals carry the page; brights are used in deliberate blocks.
+   Kinderhouse design tokens — "clay toy box"
+   A warm cream page and a white "table" that toys sit on. Colour comes
+   from the clay toys themselves; type stays dark and calm.
+   Change a colour here and it follows everywhere.
    ------------------------------------------------------------------ */
 @theme {
-  --font-display: 'Grandstander Variable', ui-rounded, system-ui, sans-serif;
+  --font-display: 'Fredoka Variable', ui-rounded, system-ui, sans-serif;
   --font-sans: 'Figtree Variable', ui-sans-serif, system-ui, sans-serif;
-  --font-hand: 'Caveat', cursive;
 
-  --color-cream: #fbf4e6;
-  --color-ivory: #fffaf1;
-  --color-sand: #f1e3c8;
-  --color-olive: #5c6a37;
-  --color-olive-deep: #414b23;
-  --color-leaf: #84b159;
-  --color-mustard: #e8b13a;
-  --color-sky: #9dc0e6;
-  --color-coral: #e1684b;
-  --color-orange: #ee8a3c;
-  --color-wood: #c8986a;
-  --color-ink: #2a2520;
-  --color-ink-soft: #5f564b;
-  --color-ink-mute: #8b8174;
+  /* neutrals */
+  --color-cream: #fbf5ea; /* page */
+  --color-paper: #fffdf8; /* the "table" panels */
+  --color-oat: #f3eadb; /* image wells, quiet fills */
+  --color-line: #ece2d1;
+  --color-ink: #26222e;
+  --color-ink-soft: #57515f;
+  --color-ink-mute: #857f8d;
 
-  --radius-soft: 18px;
-  --radius-card: 22px;
+  /* primary — tangerine: the one colour that means "do this" */
+  --color-tangerine: #ff6a2b;
+  --color-tangerine-deep: #e5531a;
+  /* secondary — butter yellow: warmth, the footer, highlights */
+  --color-butter: #ffc83d;
+  --color-butter-soft: #ffe7a6;
+  /* accents — used in clay objects and small details only */
+  --color-grape: #8b6cf0;
+  --color-sky: #45aeea;
+  --color-sky-soft: #cfeafb;
+  --color-leaf: #55b85c;
+  --color-bubble: #ff8fa0;
 
-  --ease-out-back: cubic-bezier(0.34, 1.4, 0.64, 1);
+  /* WhatsApp ordering (darkened brand green for AA contrast with white) */
+  --color-whatsapp: #147d41;
+  --color-whatsapp-deep: #0f6634;
+
+  --radius-tile: 24px;
+  --radius-panel: 40px;
+
+  --ease-out-back: cubic-bezier(0.34, 1.45, 0.64, 1);
   --ease-out-quint: cubic-bezier(0.22, 1, 0.36, 1);
 }
 
 @layer base {
   :root {
-    --gutter: clamp(18px, 4vw, 64px);
+    --gutter: clamp(16px, 4vw, 56px);
     --header-h: 72px;
   }
 
   html {
     -webkit-text-size-adjust: 100%;
     -webkit-font-smoothing: antialiased;
-    scroll-padding-top: calc(var(--header-h) + 12px);
+    scroll-padding-top: calc(var(--header-h) + 16px);
   }
 
   body {
@@ -64,201 +74,113 @@
   }
 
   ::selection {
-    background: var(--color-mustard);
+    background: var(--color-butter);
     color: var(--color-ink);
   }
 
   :focus-visible {
-    outline: 3px solid var(--color-coral);
+    outline: 3px solid var(--color-grape);
     outline-offset: 3px;
-    border-radius: 6px;
+    border-radius: 8px;
   }
 }
 
 @layer components {
   .container-play {
     @apply mx-auto w-full;
-    max-width: 1680px;
+    max-width: 1320px;
+    padding-inline: var(--gutter);
+  }
+  .container-wide {
+    @apply mx-auto w-full;
+    max-width: 1560px;
     padding-inline: var(--gutter);
   }
 
   .t-display {
     font-family: var(--font-display);
-    font-weight: 800;
-    font-size: clamp(46px, 7.2vw, 118px);
-    line-height: 0.92;
+    font-weight: 650;
+    font-size: clamp(46px, 7.6vw, 112px);
+    line-height: 0.94;
     letter-spacing: -0.02em;
   }
   .t-h2 {
     font-family: var(--font-display);
-    font-weight: 750;
-    font-size: clamp(32px, 4.2vw, 64px);
-    line-height: 0.98;
+    font-weight: 620;
+    font-size: clamp(34px, 4.4vw, 60px);
+    line-height: 1;
     letter-spacing: -0.015em;
   }
   .t-h3 {
     font-family: var(--font-display);
-    font-weight: 700;
-    font-size: clamp(22px, 2vw, 30px);
-    line-height: 1.05;
-  }
-  .t-hand {
-    font-family: var(--font-hand);
-    font-weight: 700;
-    letter-spacing: 0.01em;
+    font-weight: 600;
+    font-size: clamp(22px, 1.9vw, 28px);
+    line-height: 1.1;
   }
   .t-eyebrow {
-    @apply text-[12px] font-bold tracking-[0.14em] uppercase;
+    @apply text-[13px] font-bold tracking-[0.12em] uppercase;
+  }
+  .t-lead {
+    @apply text-[17px] leading-relaxed text-ink-soft sm:text-[19px];
   }
 
-  /* --------------------------------------------------------------
-     Clay — a soft, sculpted surface. Light from the top-left, a
-     darker underside, and a faint grain so it reads as material.
-     -------------------------------------------------------------- */
-  .clay {
-    --clay: var(--color-mustard);
-    position: relative;
-    isolation: isolate;
-    background:
-      radial-gradient(120% 110% at 28% 22%, color-mix(in oklab, var(--clay) 62%, white) 0%, var(--clay) 46%,
-        color-mix(in oklab, var(--clay) 78%, #3a2412) 100%);
-    box-shadow:
-      inset -7px -10px 16px color-mix(in oklab, var(--clay) 55%, #2b1a0c 45%),
-      inset 6px 8px 14px rgb(255 255 255 / 0.38),
-      0 22px 30px -16px rgb(70 45 20 / 0.45),
-      0 6px 10px -6px rgb(70 45 20 / 0.28);
-  }
-  .clay::after {
-    content: '';
-    position: absolute;
-    inset: 0;
-    border-radius: inherit;
-    pointer-events: none;
-    opacity: 0.32;
-    mix-blend-mode: soft-light;
-    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  /* the white "table" the clay toys rest on */
+  .panel {
+    @apply bg-paper;
+    border-radius: var(--radius-panel) var(--radius-panel) 0 0;
   }
 
-  /* Organic photo masks, after the hand-cut shapes in the WOODIC reference */
-  .mask-blob {
-    border-radius: 58% 42% 47% 53% / 50% 46% 54% 50%;
-  }
-  .mask-blob-2 {
-    border-radius: 44% 56% 62% 38% / 48% 58% 42% 52%;
-  }
-  .mask-pebble {
-    border-radius: 46% 54% 50% 50% / 58% 52% 48% 42%;
-  }
-  .mask-arch {
-    border-radius: 999px 999px 18px 18px;
-  }
-
-  /* Stitched edge — a sewn-on label look */
-  .stitch {
-    outline: 2px dashed currentColor;
-    outline-offset: -8px;
-  }
-
-  .link-wiggle {
+  .link-line {
     background-image: linear-gradient(currentColor, currentColor);
     background-size: 0% 2px;
     background-position: 0 100%;
     background-repeat: no-repeat;
-    transition: background-size 0.3s var(--ease-out-quint);
+    transition: background-size 0.35s var(--ease-out-quint);
   }
-  .link-wiggle:hover,
-  .link-wiggle:focus-visible {
+  .link-line:hover,
+  .link-line:focus-visible {
     background-size: 100% 2px;
   }
-  /* --------------------------------------------------------------
-     Wooden toy block — a true CSS 3D cube. Set --s (edge length) and
-     --c (paint colour) on .cube; faces are its six <i> children.
-     Light falls from the top-left, so the top face is brightest.
-     -------------------------------------------------------------- */
-  .cube {
-    --s: 80px;
-    --c: var(--color-mustard);
-    position: relative;
-    width: var(--s);
-    height: var(--s);
-    transform-style: preserve-3d;
-  }
-  .cube > i {
-    position: absolute;
-    inset: 0;
-    display: grid;
-    place-items: center;
-    border-radius: 14%;
-    font-style: normal;
-    font-family: var(--font-display);
-    font-weight: 850;
-    line-height: 1;
-    color: var(--color-ivory);
-    backface-visibility: hidden;
-    background:
-      repeating-linear-gradient(97deg, rgb(255 255 255 / 0) 0 7px, rgb(255 255 255 / 0.07) 7px 9px, rgb(0 0 0 / 0) 9px 15px),
-      radial-gradient(120% 120% at 25% 20%, color-mix(in oklab, var(--face) 70%, white) 0%, var(--face) 55%, color-mix(in oklab, var(--face) 85%, #3a2412) 100%);
-    box-shadow:
-      inset 0 0 0 calc(var(--s) * 0.035) color-mix(in oklab, var(--face) 80%, white),
-      inset -3px -4px 10px rgb(60 35 15 / 0.22);
-  }
-  .cube > i:nth-child(1) { --face: var(--c); transform: translateZ(calc(var(--s) / 2)); }
-  .cube > i:nth-child(2) { --face: color-mix(in oklab, var(--c) 80%, #2b1a0c); transform: rotateY(180deg) translateZ(calc(var(--s) / 2)); }
-  .cube > i:nth-child(3) { --face: color-mix(in oklab, var(--c) 84%, #2b1a0c); transform: rotateY(90deg) translateZ(calc(var(--s) / 2)); }
-  .cube > i:nth-child(4) { --face: color-mix(in oklab, var(--c) 92%, white); transform: rotateY(-90deg) translateZ(calc(var(--s) / 2)); }
-  .cube > i:nth-child(5) { --face: color-mix(in oklab, var(--c) 70%, white); transform: rotateX(90deg) translateZ(calc(var(--s) / 2)); }
-  .cube > i:nth-child(6) { --face: color-mix(in oklab, var(--c) 70%, #2b1a0c); transform: rotateX(-90deg) translateZ(calc(var(--s) / 2)); }
 
-  /* a soft contact shadow under floating toys */
+  /* soft contact shadow under a clay object */
   .toy-shadow {
     border-radius: 50%;
-    background: radial-gradient(closest-side, rgb(70 45 20 / 0.32), rgb(70 45 20 / 0));
-    filter: blur(2px);
+    background: radial-gradient(closest-side, rgb(70 45 20 / 0.22), rgb(70 45 20 / 0));
   }
-
-  /* gentle idle motion (disabled automatically for reduced motion) */
-  .float-a { animation: kh-float 6s ease-in-out infinite; }
-  .float-b { animation: kh-float 7.5s ease-in-out -2s infinite; }
-  .float-c { animation: kh-float 5.2s ease-in-out -1s infinite; }
-  .bob { animation: kh-bob 4.8s ease-in-out infinite; }
-}
-
-@keyframes kh-float {
-  0%, 100% { translate: 0 0; }
-  50% { translate: 0 -12px; }
-}
-@keyframes kh-spin {
-  from { rotate: y 0deg; }
-  to { rotate: y 360deg; }
-}
-@keyframes kh-bob {
-  0%, 100% { rotate: -4deg; }
-  50% { rotate: 4deg; }
-}
-@keyframes kh-wobble {
-  0% { rotate: 0deg; }
-  30% { rotate: -14deg; }
-  60% { rotate: 9deg; }
-  100% { rotate: 0deg; }
 }
 
 /* ------------------------------------------------------------------
-   Toy-block cursor (fine pointers only — see components/ui/ToyCursor)
-   The native cursor is hidden only once the custom one is running,
-   and text fields keep their normal I-beam.
+   Clay pointer — a small, tactile cursor for mouse users only.
+   Pure CSS (no script, no lag); text fields keep the normal I-beam and
+   touch devices never see it.
    ------------------------------------------------------------------ */
-html.toy-cursor,
-html.toy-cursor * {
-  cursor: none !important;
-}
-html.toy-cursor input:not([type='checkbox']):not([type='radio']):not([type='range']),
-html.toy-cursor textarea,
-html.toy-cursor select,
-html.toy-cursor [contenteditable='true'] {
-  cursor: text !important;
-}
-html.toy-cursor select {
-  cursor: pointer !important;
+@media (hover: hover) and (pointer: fine) {
+  html {
+    cursor:
+      -webkit-image-set(url('/clay/cursor-grape.png') 1x, url('/clay/cursor-grape@2x.png') 2x) 4 3,
+      auto;
+    cursor:
+      image-set(url('/clay/cursor-grape.png') 1x, url('/clay/cursor-grape@2x.png') 2x) 4 3,
+      auto;
+  }
+  a,
+  button:not(:disabled),
+  summary,
+  label[for],
+  select,
+  [role='button'] {
+    cursor:
+      -webkit-image-set(url('/clay/cursor-tangerine.png') 1x, url('/clay/cursor-tangerine@2x.png') 2x) 4 3,
+      pointer;
+    cursor:
+      image-set(url('/clay/cursor-tangerine.png') 1x, url('/clay/cursor-tangerine@2x.png') 2x) 4 3,
+      pointer;
+  }
+  input:not([type='checkbox']):not([type='radio']),
+  textarea,
+  [contenteditable='true'] {
+    cursor: text;
+  }
 }
 
 @utility no-scrollbar {

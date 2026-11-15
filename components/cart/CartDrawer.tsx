@@ -59,13 +59,13 @@ export function CartDrawer() {
             animate={reduce ? { opacity: 1 } : { x: 0 }}
             exit={reduce ? { opacity: 0 } : { x: '100%' }}
             transition={{ type: 'spring', stiffness: 320, damping: 34 }}
-            className="absolute inset-y-0 right-0 flex w-full max-w-[460px] flex-col bg-ivory"
+            className="absolute inset-y-0 right-0 flex w-full max-w-[460px] flex-col bg-paper"
           >
-            <div className="flex items-center justify-between border-b border-ink/10 px-6 py-5">
-              <h2 className="font-display text-[26px] font-bold">
+            <div className="flex items-center justify-between border-b border-line px-6 py-5">
+              <h2 className="font-display text-[26px] font-semibold">
                 Your bag <span className="text-ink-mute">({count})</span>
               </h2>
-              <button type="button" onClick={close} className="grid size-11 place-items-center rounded-full hover:bg-ink/8" aria-label="Close bag">
+              <button type="button" onClick={close} className="grid size-11 place-items-center rounded-full hover:bg-oat" aria-label="Close bag">
                 <X className="size-5" strokeWidth={2.2} />
               </button>
             </div>
@@ -73,10 +73,10 @@ export function CartDrawer() {
             <div className="flex-1 overflow-y-auto px-6">{lines.length ? <CartLines compact onNavigate={close} /> : <EmptyBag onNavigate={close} />}</div>
 
             {lines.length > 0 && (
-              <div className="border-t border-ink/10 px-6 pt-5 pb-6">
+              <div className="border-t border-line px-6 pt-5 pb-6">
                 <div className="flex items-baseline justify-between">
                   <span className="text-[15px] text-ink-soft">Subtotal</span>
-                  <span className="font-display text-[26px] font-bold tabular-nums">{formatPrice(subtotal)}</span>
+                  <span className="font-display text-[26px] font-semibold tabular-nums">{formatPrice(subtotal)}</span>
                 </div>
                 <p className="mt-1 text-[13px] text-ink-mute">No online payment — you’ll confirm delivery and payment with us on WhatsApp.</p>
                 <ButtonLink href="/checkout" variant="whatsapp" onClick={close} className="mt-5 w-full">

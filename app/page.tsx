@@ -1,24 +1,24 @@
-import { Hero } from '@/components/home/Hero'
-import { WordmarkBand } from '@/components/home/WordmarkBand'
-import { CategoryMosaic } from '@/components/home/CategoryMosaic'
-import { AgeExplorer } from '@/components/home/AgeExplorer'
+import { Hero, PeekingCub } from '@/components/home/Hero'
+import { Categories } from '@/components/home/Categories'
+import { Ages } from '@/components/home/Ages'
 import { FeaturedProducts } from '@/components/home/FeaturedProducts'
-import { Campaign } from '@/components/home/Campaign'
-import { Story } from '@/components/home/Story'
-import { BuildWorld } from '@/components/home/BuildWorld'
+import { Adventure } from '@/components/home/Adventure'
+import { Hello } from '@/components/home/Hello'
 import { RecentlyViewed } from '@/components/products/RecentlyViewed'
 
 export default function HomePage() {
   return (
     <>
       <Hero />
-      <WordmarkBand />
-      <CategoryMosaic />
-      <AgeExplorer />
+      {/* the white "table": the cub peeks over its top edge */}
+      <div className="panel relative overflow-x-clip">
+        <PeekingCub />
+        <Categories />
+        <Ages />
+      </div>
       <FeaturedProducts />
-      <BuildWorld />
-      <Campaign />
-      <Story />
+      <Adventure />
+      <Hello />
       <RecentlyViewed title="Pick up where you left off" />
     </>
   )

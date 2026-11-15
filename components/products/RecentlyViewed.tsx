@@ -22,15 +22,15 @@ export function RecentlyViewed({ exclude, title = 'Recently viewed', track }: { 
   if (!items.length) return null
 
   return (
-    <section aria-labelledby="recent-title" className="bg-cream py-16 lg:py-20">
+    <section aria-labelledby="recent-title" className="py-16 lg:py-20">
       <div className="container-play">
         <h2 id="recent-title" className="t-h3">
           {title}
         </h2>
-        <ul className="mt-8 grid grid-cols-2 gap-x-3 gap-y-9 sm:gap-x-5 sm:gap-y-10 lg:grid-cols-4">
+        <ul className="mt-8 grid grid-cols-2 gap-x-4 gap-y-10 sm:gap-x-6 lg:grid-cols-4">
           {items.map((p) => (
             <li key={p!.id}>
-              <ProductCard product={p!} sizes="(min-width:1024px) 22vw, 45vw" />
+              <ProductCard product={p!} sizes="(min-width:1024px) 300px, 46vw" />
             </li>
           ))}
         </ul>

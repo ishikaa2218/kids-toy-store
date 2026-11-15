@@ -1,97 +1,77 @@
+import Image from 'next/image'
 import Link from 'next/link'
 import { MessageCircle } from 'lucide-react'
 import { brand, whatsappLink } from '@/config/brand'
 import { footerNav } from '@/config/navigation'
 import { categories } from '@/data/categories'
 import { HouseMark, Wordmark } from '@/components/brand/Logo'
-import { Clay } from '@/components/ui/Clay'
 
-/** Olive footer with a hand-cut wavy edge and a scatter of clay forms. */
+const blob = 'pointer-events-none absolute select-none'
+
+/** Butter-yellow footer with clay blobs tucked into its corners. */
 export function Footer() {
+  const links = [...footerNav.shop.slice(0, 1), ...footerNav.company, ...footerNav.shop.slice(2)]
   return (
-    <footer className="relative mt-auto overflow-hidden bg-olive text-ivory">
-      {/* wavy top edge */}
-      <svg aria-hidden viewBox="0 0 1440 60" preserveAspectRatio="none" className="block h-10 w-full text-cream sm:h-14">
-        <path fill="currentColor" d="M0 0h1440v22c-120 24-240 34-360 22S840 8 720 16 480 52 360 50 120 26 0 30Z" />
-      </svg>
+    <footer className="container-wide mt-auto pt-6 pb-4 sm:pb-6">
+      <div className="relative overflow-hidden rounded-[var(--radius-panel)] bg-butter px-6 pt-16 pb-10 text-ink sm:px-12 sm:pt-20">
+        <Image src="/clay/blob-tangerine.webp" alt="" width={560} height={357} unoptimized aria-hidden className={`${blob} -bottom-20 -left-24 w-[260px] rotate-[-14deg] sm:w-[340px] lg:-bottom-24 lg:-left-16`} />
+        <Image src="/clay/blob-sky.webp" alt="" width={560} height={277} unoptimized aria-hidden className={`${blob} -top-16 -right-24 w-[240px] rotate-[18deg] sm:w-[340px]`} />
+        <Image src="/clay/blob-grape.webp" alt="" width={514} height={444} unoptimized aria-hidden className={`${blob} -right-16 -bottom-24 hidden w-[230px] rotate-12 md:block`} />
+        <Image src="/clay/ball-tangerine.webp" alt="" width={160} height={159} unoptimized aria-hidden className={`${blob} top-[22%] right-[16%] hidden w-11 md:block`} />
+        <Image src="/clay/ball-grape.webp" alt="" width={160} height={162} unoptimized aria-hidden className={`${blob} bottom-[30%] left-[10%] hidden w-8 lg:block`} />
 
-      <Clay tone="mustard" shape="blob" className="absolute -top-2 -right-24 h-28 w-44 rotate-12 sm:-right-20 sm:h-44 sm:w-64" />
-      <Clay tone="coral" shape="ball" className="absolute right-[6%] bottom-24 hidden size-12 xl:block" />
-      <Clay tone="sky" shape="pebble" className="absolute -bottom-24 -left-20 hidden h-40 w-56 -rotate-12 opacity-90 lg:block" />
-
-      <div className="container-play relative grid gap-12 pt-10 pb-12 lg:grid-cols-12 lg:pt-14">
-        <div className="lg:col-span-4">
+        <div className="relative flex flex-col items-center text-center">
           <Link href="/" className="inline-flex items-center gap-3" aria-label={`${brand.name} — home`}>
-            <HouseMark className="size-11" />
-            <span className="rounded-[14px] bg-ivory px-3 py-1">
-              <Wordmark className="text-[32px] leading-none" />
-            </span>
+            <HouseMark className="w-12" />
+            <Wordmark className="text-[34px] leading-none" />
           </Link>
-          <p className="mt-6 max-w-[36ch] text-[15.5px] leading-relaxed text-ivory/80">{brand.description}</p>
-          <a
-            href={whatsappLink}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="mt-5 inline-flex min-h-11 items-center gap-2 rounded-full bg-ivory/12 px-4 text-[15px] font-semibold text-ivory transition-colors hover:bg-ivory/20"
-          >
-            <MessageCircle className="size-4.5" strokeWidth={2.4} aria-hidden />
-            WhatsApp {brand.whatsapp.display}
-          </a>
-          <p className="t-hand mt-5 text-[24px] text-mustard">{brand.headline}</p>
-        </div>
+          <p className="mt-4 max-w-[38ch] text-[15.5px] leading-relaxed text-ink/75">{brand.tagline} — toys chosen for open-ended, hands-on play.</p>
 
-        <nav aria-label="Footer" className="grid grid-cols-2 gap-10 sm:grid-cols-3 lg:col-span-7 lg:col-start-6">
-          <div>
-            <p className="t-eyebrow text-ivory/55">Shop</p>
-            <ul className="mt-4 space-y-2.5 text-[15.5px]">
-              {footerNav.shop.map((l) => (
+          <nav aria-label="Footer" className="mt-8">
+            <ul className="flex flex-wrap justify-center gap-x-7 gap-y-2 text-[15.5px] font-bold">
+              {links.map((l) => (
                 <li key={l.href}>
-                  <Link href={l.href} className="link-wiggle text-ivory/90 hover:text-ivory">
-                    {l.label}
-                  </Link>
-                </li>
-              ))}
-            </ul>
-          </div>
-          <div>
-            <p className="t-eyebrow text-ivory/55">Categories</p>
-            <ul className="mt-4 space-y-2.5 text-[15.5px]">
-              {categories.map((c) => (
-                <li key={c.id}>
-                  <Link href={`/shop?category=${c.id}`} className="link-wiggle text-ivory/90 hover:text-ivory">
-                    {c.name}
-                  </Link>
-                </li>
-              ))}
-            </ul>
-          </div>
-          <div>
-            <p className="t-eyebrow text-ivory/55">{brand.name}</p>
-            <ul className="mt-4 space-y-2.5 text-[15.5px]">
-              {footerNav.company.map((l) => (
-                <li key={l.href}>
-                  <Link href={l.href} className="link-wiggle text-ivory/90 hover:text-ivory">
+                  <Link href={l.href} className="link-line">
                     {l.label}
                   </Link>
                 </li>
               ))}
               {brand.social.map((s) => (
                 <li key={s.href}>
-                  <a href={s.href} target="_blank" rel="noopener noreferrer" className="link-wiggle text-ivory/90 hover:text-ivory">
+                  <a href={s.href} target="_blank" rel="noopener noreferrer" className="link-line">
                     {s.label}
                   </a>
                 </li>
               ))}
             </ul>
-          </div>
-        </nav>
-      </div>
+            <ul className="mt-4 flex flex-wrap justify-center gap-x-5 gap-y-1.5 text-[14px] text-ink/70">
+              {categories.map((c) => (
+                <li key={c.id}>
+                  <Link href={`/shop?category=${c.id}`} className="link-line hover:text-ink">
+                    {c.name}
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </nav>
 
-      <div className="container-play relative flex flex-col gap-2 border-t border-ivory/15 py-6 text-[13px] text-ivory/60 sm:flex-row sm:justify-between">
-        <p>
-          © {new Date().getFullYear()} {brand.name}. Orders are placed and confirmed on WhatsApp — no online payments are taken on this site.
-        </p>
-        <p>Photography via Unsplash.</p>
+          <a
+            href={whatsappLink}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="mt-8 inline-flex min-h-12 items-center gap-2 rounded-full bg-paper px-5 text-[15px] font-bold transition-transform duration-200 hover:-translate-y-0.5"
+          >
+            <MessageCircle className="size-5 text-whatsapp" strokeWidth={2.4} aria-hidden />
+            WhatsApp {brand.whatsapp.display}
+          </a>
+
+          <div className="mt-12 flex w-full max-w-[720px] flex-col gap-1.5 border-t border-ink/15 pt-6 text-[13px] text-ink/65">
+            <p>
+              © {new Date().getFullYear()} {brand.name}. Orders are placed and confirmed on WhatsApp — no online payments are taken on this site.
+            </p>
+            <p>Product photography via Unsplash.</p>
+          </div>
+        </div>
       </div>
     </footer>
   )
