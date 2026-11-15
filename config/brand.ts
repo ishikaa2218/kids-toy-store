@@ -12,7 +12,7 @@ export const brand = {
   headline: 'Little Toys. Big Adventures.',
   description:
     'Kinderhouse is a toy boutique of wooden toys, pretend play, puzzles, stacking toys, plush friends and creative kits — chosen for open-ended, hands-on play.',
-  url: process.env.NEXT_PUBLIC_SITE_URL ?? 'https://kids-toy-store-ten.vercel.app',
+  url: process.env.NEXT_PUBLIC_SITE_URL ?? 'https://kinderhouse.vercel.app',
   locale: 'en-IN',
   currency: 'INR',
 
