@@ -42,10 +42,9 @@ export function AddToCartButton({ product, qty = 1, variant = 'compact', openDra
         type="button"
         onClick={onClick}
         aria-label={label}
-        data-cursor="add"
-        data-cursor-label="Add"
-        className={`relative grid size-11 place-items-center rounded-full text-ivory shadow-[0_3px_0_rgb(0_0_0/0.22)] transition-[background-color,transform] duration-200 hover:rotate-[-8deg] active:translate-y-[2px] active:rotate-0 active:shadow-none ${
-          added ? 'bg-leaf' : 'bg-olive hover:bg-[#667640]'
+        title="Add to bag"
+        className={`grid size-11 place-items-center rounded-full text-ink transition-[background-color,transform] duration-200 ease-[var(--ease-out-back)] hover:scale-110 hover:-rotate-6 active:scale-90 ${
+          added ? 'bg-leaf' : 'bg-tangerine hover:bg-[#ff7a40]'
         } ${className}`}
       >
         <AnimatePresence mode="wait" initial={false}>
@@ -56,7 +55,7 @@ export function AddToCartButton({ product, qty = 1, variant = 'compact', openDra
             exit={{ scale: 0.4, opacity: 0 }}
             transition={{ type: 'spring', stiffness: 500, damping: 22 }}
           >
-            {added ? <Check className="size-5" strokeWidth={2.6} /> : <Plus className="size-5" strokeWidth={2.6} />}
+            {added ? <Check className="size-5" strokeWidth={2.8} /> : <Plus className="size-5" strokeWidth={2.8} />}
           </motion.span>
         </AnimatePresence>
       </button>
@@ -67,10 +66,8 @@ export function AddToCartButton({ product, qty = 1, variant = 'compact', openDra
     <button
       type="button"
       onClick={onClick}
-      data-cursor="add"
-      data-cursor-label="Add to bag"
-      className={`group/btn inline-flex min-h-14 items-center justify-center gap-3 rounded-full px-8 text-[16px] font-bold text-ivory shadow-[0_5px_0_var(--color-olive-deep)] transition-[background-color,transform,box-shadow] duration-200 active:translate-y-[4px] active:shadow-none ${
-        added ? 'bg-leaf' : 'bg-olive hover:bg-[#667640]'
+      className={`group/btn inline-flex min-h-14 items-center justify-center gap-3 rounded-full px-8 text-[17px] font-bold text-ink shadow-[inset_0_-3px_0_rgb(0_0_0/0.14)] transition-[background-color,transform] duration-200 hover:-translate-y-0.5 active:translate-y-0 active:scale-[0.98] ${
+        added ? 'bg-leaf' : 'bg-tangerine hover:bg-[#ff7a40]'
       } ${className}`}
     >
       <AnimatePresence mode="wait" initial={false}>

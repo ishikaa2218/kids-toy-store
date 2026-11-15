@@ -4,24 +4,10 @@ import Image from 'next/image'
 import { useState, type PointerEvent } from 'react'
 import { AnimatePresence, motion, useReducedMotion, type PanInfo } from 'motion/react'
 import { ChevronLeft, ChevronRight, ZoomIn, ZoomOut } from 'lucide-react'
-import { Clay } from '@/components/ui/Clay'
-import { Tilt } from '@/components/ui/Tilt'
-import type { Product, Tone } from '@/types'
-
-const bg: Record<Tone, string> = {
-  cream: 'bg-[#f4ead6]',
-  sand: 'bg-sand',
-  olive: 'bg-[#c9d2a8]',
-  leaf: 'bg-[#cfe2b6]',
-  mustard: 'bg-[#f6d98d]',
-  sky: 'bg-[#cfe0f3]',
-  coral: 'bg-[#f5c2b0]',
-  orange: 'bg-[#f8c9a0]',
-  wood: 'bg-[#e6cfb3]',
-}
+import type { Product } from '@/types'
 
 /**
- * Product photos on a lifted, tiltable tile.
+ * Product photos on a soft rounded tile.
  *  - mouse: hover to magnify where the pointer is
  *  - touch: tap to zoom, swipe to change photo
  *  - keyboard: thumbnails, arrow buttons and the zoom toggle are all buttons
@@ -55,16 +41,9 @@ export function ProductGallery({ product }: { product: Product }) {
   return (
     <div className="grid gap-4 sm:grid-cols-[88px_1fr]">
       <div className="relative order-1 sm:order-2">
-        <Clay
-          tone={product.tone === 'coral' ? 'mustard' : 'coral'}
-          shape="pebble"
-          className="pointer-events-none absolute -top-4 -right-3 z-10 h-12 w-16 rotate-12 sm:h-14 sm:w-20"
-        />
-        <Tilt max={zoom ? 0 : 4} lift={6}>
+        <div>
           <div
-            className={`group/zoom relative aspect-[4/4.2] overflow-hidden rounded-[32px] ${bg[product.tone]} shadow-[0_9px_0_rgb(70_45_20/0.12)]`}
-            data-cursor="view"
-            data-cursor-label={zoom ? 'Zoom out' : 'Zoom'}
+            className="group/zoom relative aspect-[4/4.2] overflow-hidden rounded-[32px] bg-oat"
             onPointerMove={(e) => (e.pointerType === 'mouse' || zoom) && onMove(e)}
             onPointerEnter={(e) => e.pointerType === 'mouse' && !reduce && setZoom(true)}
             onPointerLeave={(e) => e.pointerType === 'mouse' && setZoom(false)}
@@ -108,7 +87,7 @@ export function ProductGallery({ product }: { product: Product }) {
               }}
               aria-label={zoom ? 'Zoom out' : 'Zoom in'}
               aria-pressed={zoom}
-              className="absolute top-4 left-4 z-[2] grid size-11 place-items-center rounded-full bg-ivory/90 text-ink shadow-sm transition-transform hover:scale-105"
+              className="absolute top-4 left-4 z-[2] grid size-11 place-items-center rounded-full bg-paper/90 text-ink transition-transform hover:scale-105"
             >
               {zoom ? <ZoomOut className="size-5" strokeWidth={2.2} /> : <ZoomIn className="size-5" strokeWidth={2.2} />}
             </button>
@@ -122,7 +101,7 @@ export function ProductGallery({ product }: { product: Product }) {
                     go(i - 1)
                   }}
                   aria-label="Previous photo"
-                  className="grid size-11 place-items-center rounded-full bg-ivory/90 text-ink shadow-sm transition-transform hover:-translate-x-0.5"
+                  className="grid size-11 place-items-center rounded-full bg-paper/90 text-ink transition-transform hover:-translate-x-0.5"
                 >
                   <ChevronLeft className="size-5" strokeWidth={2.4} />
                 </button>
@@ -133,14 +112,14 @@ export function ProductGallery({ product }: { product: Product }) {
                     go(i + 1)
                   }}
                   aria-label="Next photo"
-                  className="grid size-11 place-items-center rounded-full bg-ivory/90 text-ink shadow-sm transition-transform hover:translate-x-0.5"
+                  className="grid size-11 place-items-center rounded-full bg-paper/90 text-ink transition-transform hover:translate-x-0.5"
                 >
                   <ChevronRight className="size-5" strokeWidth={2.4} />
                 </button>
               </div>
             )}
           </div>
-        </Tilt>
+        </div>
         {many && (
           <p className="mt-3 text-center text-[13px] text-ink-mute sm:hidden">
             Photo {i + 1} of {product.images.length} · swipe or tap to zoom
@@ -157,10 +136,8 @@ export function ProductGallery({ product }: { product: Product }) {
                 onClick={() => go(k)}
                 aria-label={`Show image ${k + 1}: ${im.alt}`}
                 aria-pressed={k === i}
-                className={`relative block size-20 overflow-hidden rounded-[18px] transition-[transform,box-shadow] duration-300 sm:size-[88px] ${
-                  k === i
-                    ? 'ring-4 ring-olive ring-offset-2 ring-offset-cream'
-                    : 'opacity-75 hover:-translate-y-1 hover:rotate-[-3deg] hover:opacity-100'
+                className={`relative block size-20 overflow-hidden rounded-[18px] bg-oat transition-[transform,box-shadow,opacity] duration-300 sm:size-[88px] ${
+                  k === i ? 'ring-[3px] ring-tangerine ring-offset-2 ring-offset-cream' : 'opacity-70 hover:-translate-y-1 hover:opacity-100'
                 }`}
               >
                 <Image src={im.src} alt="" fill sizes="88px" className="object-cover" style={{ objectPosition: im.focus }} />

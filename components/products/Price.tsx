@@ -5,7 +5,7 @@ export function Price({ product, className = '' }: { product: Product; className
   if (product.salePrice && product.salePrice < product.price) {
     return (
       <span className={`inline-flex items-baseline gap-2 ${className}`}>
-        <span className="font-bold text-coral">{formatPrice(product.salePrice)}</span>
+        <span className="font-bold text-tangerine-deep">{formatPrice(product.salePrice)}</span>
         <s className="text-[0.85em] text-ink-mute">{formatPrice(product.price)}</s>
       </span>
     )
