@@ -67,7 +67,7 @@ export function BagFeedback() {
         {flights.map((f) => (
           <motion.div
             key={f.id}
-            className="absolute top-0 left-0 size-14 overflow-hidden rounded-[30%] border-[3px] border-ivory bg-sand shadow-[0_12px_24px_-10px_rgb(70_45_20/0.6)]"
+            className="absolute top-0 left-0 size-14 overflow-hidden rounded-[30%] border-[3px] border-paper bg-oat shadow-[0_12px_24px_-10px_rgb(70_45_20/0.6)]"
             initial={{ x: f.from.x - 28, y: f.from.y - 28, scale: 0.6, rotate: -10, opacity: 0 }}
             animate={{
               x: [f.from.x - 28, (f.from.x + f.to.x) / 2 - 28, f.to.x - 28],
@@ -97,9 +97,9 @@ export function BagFeedback() {
               animate={{ opacity: 1, y: 0, rotate: 0, scale: 1 }}
               exit={reduce ? { opacity: 0 } : { opacity: 0, y: 16, scale: 0.97 }}
               transition={{ type: 'spring', stiffness: 380, damping: 28 }}
-              className="pointer-events-auto flex w-full max-w-[400px] items-center gap-3 rounded-[22px] bg-ink p-3 pr-2 text-ivory shadow-[0_20px_40px_-18px_rgb(42_37_32/0.7)]"
+              className="pointer-events-auto flex w-full max-w-[400px] items-center gap-3 rounded-[22px] bg-ink p-3 pr-2 text-paper shadow-[0_20px_40px_-18px_rgb(42_37_32/0.7)]"
             >
-              <span className="relative size-12 shrink-0 overflow-hidden rounded-[14px] bg-sand">
+              <span className="relative size-12 shrink-0 overflow-hidden rounded-[14px] bg-oat">
                 <Image
                   src={toast.product.images[0].src}
                   alt=""
@@ -113,11 +113,11 @@ export function BagFeedback() {
                 </span>
               </span>
               <span className="min-w-0 flex-1">
-                <span className="block text-[12px] font-bold tracking-[0.08em] text-mustard uppercase">Added to bag</span>
+                <span className="block text-[12px] font-bold tracking-[0.08em] text-butter uppercase">Added to bag</span>
                 <span className="block truncate text-[14.5px] font-semibold">
                   {toast.product.name} × {toast.qty}
                 </span>
-                <span className="block text-[12.5px] text-ivory/70">
+                <span className="block text-[12.5px] text-paper/70">
                   {formatPrice((toast.product.salePrice ?? toast.product.price) * toast.qty)}
                 </span>
               </span>
@@ -127,7 +127,7 @@ export function BagFeedback() {
                   setToast(null)
                   open()
                 }}
-                className="min-h-10 shrink-0 rounded-full bg-mustard px-4 text-[13.5px] font-bold text-ink transition-transform active:scale-95"
+                className="min-h-10 shrink-0 rounded-full bg-butter px-4 text-[13.5px] font-bold text-ink transition-transform active:scale-95"
               >
                 View bag
               </button>
@@ -135,7 +135,7 @@ export function BagFeedback() {
                 type="button"
                 onClick={() => setToast(null)}
                 aria-label="Dismiss"
-                className="grid size-9 shrink-0 place-items-center rounded-full text-ivory/70 hover:bg-ivory/10"
+                className="grid size-9 shrink-0 place-items-center rounded-full text-paper/70 hover:bg-paper/10"
               >
                 <X className="size-4" />
               </button>

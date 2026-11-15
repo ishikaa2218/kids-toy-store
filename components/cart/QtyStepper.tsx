@@ -13,11 +13,11 @@ type Props = {
 }
 
 export function QtyStepper({ value, onChange, min = 1, max = 10, label, size = 'md' }: Props) {
-  const btn = `grid place-items-center rounded-full transition-[background-color,transform] duration-200 hover:bg-ink/8 active:scale-90 disabled:opacity-35 disabled:hover:bg-transparent ${
+  const btn = `grid place-items-center rounded-full transition-[background-color,transform] duration-200 hover:bg-oat active:scale-90 disabled:opacity-35 disabled:hover:bg-transparent ${
     size === 'sm' ? 'size-9' : 'size-11'
   }`
   return (
-    <div role="group" aria-label={label} className="inline-flex items-center rounded-full border-2 border-ink/15 bg-ivory p-0.5">
+    <div role="group" aria-label={label} className="inline-flex items-center rounded-full border-2 border-line bg-paper p-0.5">
       <button type="button" className={btn} onClick={() => onChange(value - 1)} disabled={value <= min} aria-label="Decrease quantity">
         <Minus className="size-4" strokeWidth={2.4} />
       </button>

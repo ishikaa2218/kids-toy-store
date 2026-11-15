@@ -12,7 +12,7 @@ import { QtyStepper } from './QtyStepper'
 export function CartLines({ onNavigate, compact = false }: { onNavigate?: () => void; compact?: boolean }) {
   const { lines, setQty, remove, maxQty } = useCart()
   return (
-    <ul className="divide-y divide-ink/10">
+    <ul className="divide-y divide-line">
       <AnimatePresence initial={false}>
         {lines.map((l) => (
           <motion.li
@@ -27,14 +27,14 @@ export function CartLines({ onNavigate, compact = false }: { onNavigate?: () => 
             <Link
               href={`/shop/${l.product.slug}`}
               onClick={onNavigate}
-              className={`relative shrink-0 overflow-hidden rounded-[16px] bg-sand ${compact ? 'size-20' : 'size-24 sm:size-28'}`}
+              className={`relative shrink-0 overflow-hidden rounded-[16px] bg-oat ${compact ? 'size-20' : 'size-24 sm:size-28'}`}
             >
               <Image src={l.product.images[0].src} alt={l.product.images[0].alt} fill sizes="112px" className="object-cover" style={{ objectPosition: l.product.images[0].focus }} />
             </Link>
             <div className="flex min-w-0 flex-1 flex-col justify-between gap-3">
               <div className="flex items-start justify-between gap-3">
                 <div className="min-w-0">
-                  <Link href={`/shop/${l.product.slug}`} onClick={onNavigate} className="link-wiggle font-display text-[18px] leading-tight font-bold">
+                  <Link href={`/shop/${l.product.slug}`} onClick={onNavigate} className="link-line font-display text-[18px] leading-tight font-semibold">
                     {l.product.name}
                   </Link>
                   <p className="mt-1 text-[13.5px] text-ink-mute">{formatPrice(l.product.salePrice ?? l.product.price)} each</p>
@@ -46,7 +46,7 @@ export function CartLines({ onNavigate, compact = false }: { onNavigate?: () => 
                 <button
                   type="button"
                   onClick={() => remove(l.id)}
-                  className="inline-flex min-h-10 items-center gap-1.5 rounded-full px-3 text-[13.5px] font-semibold text-ink-soft transition-colors hover:bg-coral/10 hover:text-coral"
+                  className="inline-flex min-h-10 items-center gap-1.5 rounded-full px-3 text-[13.5px] font-semibold text-ink-soft transition-colors hover:bg-tangerine/10 hover:text-tangerine-deep"
                 >
                   <Trash2 className="size-4" strokeWidth={2} aria-hidden /> Remove
                 </button>

@@ -20,11 +20,11 @@ export function CartView() {
   return (
     <>
       <section className="container-play py-12 lg:py-16">
-        <p className="t-hand text-[26px] text-coral">Almost ready to play</p>
-        <h1 className="t-h2 mt-1">Your bag</h1>
+        <p className="t-eyebrow text-tangerine-deep">Almost ready to play</p>
+        <h1 className="t-h2 mt-3">Your bag</h1>
 
         {!hydrated ? (
-          <div className="mt-10 h-40 animate-pulse rounded-[28px] bg-sand/60" aria-label="Loading your bag" />
+          <div className="mt-10 h-40 animate-pulse rounded-[28px] bg-oat" aria-label="Loading your bag" />
         ) : lines.length === 0 ? (
           <EmptyBag />
         ) : (
@@ -33,16 +33,16 @@ export function CartView() {
               <CartLines />
             </div>
             <aside className="lg:col-span-4 lg:col-start-9">
-              <div className="sticky top-[calc(var(--header-h)+24px)] rounded-[28px] bg-ivory p-6 shadow-[0_1px_0_rgb(42_37_32/0.06)] sm:p-8">
-                <h2 className="font-display text-[24px] font-bold">Summary</h2>
+              <div className="sticky top-[calc(var(--header-h)+24px)] rounded-[28px] bg-paper p-6  sm:p-8">
+                <h2 className="font-display text-[24px] font-semibold">Summary</h2>
                 <dl className="mt-5 space-y-3 text-[15px]">
                   <div className="flex justify-between">
                     <dt className="text-ink-soft">Items</dt>
                     <dd className="font-semibold tabular-nums">{count}</dd>
                   </div>
-                  <div className="flex justify-between border-t-2 border-ink/10 pt-3">
+                  <div className="flex justify-between border-t-2 border-line pt-3">
                     <dt className="font-bold">Subtotal</dt>
-                    <dd className="font-display text-[26px] font-bold tabular-nums">{formatPrice(subtotal)}</dd>
+                    <dd className="font-display text-[26px] font-semibold tabular-nums">{formatPrice(subtotal)}</dd>
                   </div>
                 </dl>
                 <p className="mt-3 text-[13px] leading-relaxed text-ink-mute">No online payment. Orders are placed on WhatsApp, where we confirm availability, delivery and payment with you.</p>
@@ -60,7 +60,7 @@ export function CartView() {
       </section>
 
       {hydrated && suggestions.length > 0 && (
-        <section aria-labelledby="bag-suggest" className="bg-ivory py-16">
+        <section aria-labelledby="bag-suggest" className="bg-paper py-16">
           <div className="container-play">
             <h2 id="bag-suggest" className="t-h3">
               {lines.length ? 'More from the same corners of the toy box' : 'A few favourites to start with'}
