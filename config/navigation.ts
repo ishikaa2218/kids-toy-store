@@ -1,9 +1,9 @@
 export const mainNav = [
   { href: '/', label: 'Home' },
   { href: '/shop', label: 'Shop' },
-  { href: '/shop?menu=age', label: 'Shop by Age', menu: 'age' as const },
   { href: '/shop?menu=categories', label: 'Categories', menu: 'categories' as const },
-  { href: '/about', label: 'Our Story' },
+  { href: '/shop?menu=age', label: 'Shop by Age', menu: 'age' as const },
+  { href: '/about', label: 'About Us' },
 ]
 
 export const footerNav = {
@@ -13,7 +13,7 @@ export const footerNav = {
     { href: '/cart', label: 'Your bag' },
   ],
   company: [
-    { href: '/about', label: 'Our Story' },
+    { href: '/about', label: 'About Us' },
     { href: '/contact', label: 'Contact Us' },
   ],
 }
