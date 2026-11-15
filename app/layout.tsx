@@ -3,12 +3,10 @@ import type { ReactNode } from 'react'
 import './globals.css'
 import { brand } from '@/config/brand'
 import { CartProvider } from '@/context/CartContext'
-import { AnnouncementBar } from '@/components/layout/AnnouncementBar'
 import { Header } from '@/components/layout/Header'
 import { Footer } from '@/components/layout/Footer'
 import { CartDrawer } from '@/components/cart/CartDrawer'
 import { MotionProvider } from '@/components/ui/MotionProvider'
-import { ToyCursor } from '@/components/ui/ToyCursor'
 import { BagFeedback } from '@/components/cart/BagFeedback'
 
 export const metadata: Metadata = {
@@ -31,7 +29,7 @@ export const metadata: Metadata = {
 }
 
 export const viewport: Viewport = {
-  themeColor: '#fbf4e6',
+  themeColor: '#fbf5ea',
 }
 
 export default function RootLayout({ children }: { children: ReactNode }) {
@@ -40,13 +38,12 @@ export default function RootLayout({ children }: { children: ReactNode }) {
       <body className="flex min-h-svh flex-col">
         <a
           href="#main"
-          className="sr-only z-[100] rounded-full bg-ink px-4 py-2 text-ivory focus:not-sr-only focus:fixed focus:top-3 focus:left-3"
+          className="sr-only z-[100] rounded-full bg-ink px-4 py-2 text-paper focus:not-sr-only focus:fixed focus:top-3 focus:left-3"
         >
           Skip to content
         </a>
         <MotionProvider>
           <CartProvider>
-            <AnnouncementBar />
             <Header />
             <main id="main" className="flex-1">
               {children}
@@ -55,7 +52,6 @@ export default function RootLayout({ children }: { children: ReactNode }) {
             <CartDrawer />
             <BagFeedback />
           </CartProvider>
-          <ToyCursor />
         </MotionProvider>
       </body>
     </html>
